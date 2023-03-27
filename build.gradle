@@ -25,10 +25,12 @@ repositories {
 dependencies { // TODO : 날 잡고 정리한번 하기
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'mysql:mysql-connector-java:8.0.30'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok' // 테스트 의존성 추가
+	testAnnotationProcessor 'org.projectlombok:lombok' // 테스트 의존성 추가
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compileOnly("org.springframework.boot:spring-boot-devtools") //devtools 서버를 닫았다 킬 공정을 줄여줌
 	testImplementation("org.junit.vintage:junit-vintage-engine") {
@@ -36,9 +38,9 @@ dependencies { // TODO : 날 잡고 정리한번 하기
 	}
 }
 
-//tasks.named('test') { //아직 테스트를 사용하지 않아서 주석처리해놓음
-//	useJUnitPlatform()
-//}
+tasks.named('test') { //아직 테스트를 사용하지 않아서 주석처리해놓음
+	useJUnitPlatform()
+}
 
 def frontendDir = "$projectDir/src/main/frontend"
 
