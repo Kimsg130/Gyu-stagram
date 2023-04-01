@@ -38,7 +38,7 @@ dependencies { // TODO : 날 잡고 정리한번 하기
 	}
 }
 
-tasks.named('test') { //아직 테스트를 사용하지 않아서 주석처리해놓음
+tasks.named('test') {
 	useJUnitPlatform()
 }
 

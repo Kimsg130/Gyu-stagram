@@ -1,5 +1,6 @@
 package com.kimsg130.gyustagram.model;
 
+import com.kimsg130.gyustagram.dto.SignUpDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,4 +36,12 @@ public class User { //유저테이블
 
     @Column(length = 100, nullable = true)
     private String image;
+
+    public User(SignUpDto dto) {
+        this.email = dto.getEmail();
+        this.phone = dto.getPhone();
+        this.password = dto.getPassword();
+        this.name = dto.getName();
+        this.nickname = dto.getNickname();
+    }
 }
