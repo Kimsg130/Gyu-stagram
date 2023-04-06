@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         // 성공!
         return ResponseDto.setSuccess("SignUp Success!!", null);
     }
-
+}
 
 //    private UserRepository userRepository;
 //    @Override
@@ -95,4 +95,4 @@ public class UserServiceImpl implements UserService {
 //    public void deleteUser(Long id) {
 //        userRepository.deleteById(id);
 //    }
-}
+

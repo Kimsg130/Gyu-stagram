@@ -38,9 +38,9 @@ dependencies { // TODO : 날 잡고 정리한번 하기
 	}
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
 
 def frontendDir = "$projectDir/src/main/frontend"
 

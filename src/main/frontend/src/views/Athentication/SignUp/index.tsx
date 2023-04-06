@@ -6,8 +6,10 @@ import {Box, Button, TextField} from "@mui/material";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import './style.css';
 
 export default function SignUp() {
+
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -35,6 +37,7 @@ export default function SignUp() {
     // TODO : 좀더 친절하게 UI 완성하기
     return (
         <Card sx={{ minWidth : 275, maxWidth : "50vw" }}>
+            <h3>회원가입</h3>
             <CardContent>
                 <Box>
                     <TextField
