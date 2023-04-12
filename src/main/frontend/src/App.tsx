@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import axios from 'axios';
-import Athentication from "./views/Athentication";
+import Authentication from "./views/Authentication";
+import {Button, Container} from "@mui/material";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import SignUp from "./views/Authentication/SignUp";
+import LogIn from "./views/Authentication/LogIn";
 
 
 function App() {
@@ -15,7 +19,16 @@ function App() {
 
 
     return (
-        <Athentication />
+        <div className={"App"}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path={"/home"} element={<Authentication />}></Route>
+                    <Route path={"/signup"} element={<SignUp />}></Route>
+                    <Route path={"/login"} element={<LogIn />}></Route>
+                </Routes>
+                <Authentication />
+            </BrowserRouter>
+        </div>
     );
 }
 

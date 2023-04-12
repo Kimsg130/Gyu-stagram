@@ -2,12 +2,14 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Authentication from "./views/Authentication";
 
 const rootNode : HTMLElement = document.getElementById('root')!;
 
 createRoot(rootNode).render (
     <React.StrictMode>
         <App />
+
     </React.StrictMode>,
 );
 
