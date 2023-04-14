@@ -11,4 +11,5 @@ public class ExamController {
         model.addAttribute("data", "hello!!!!!!!!");
         return "welcome";
     }
+
 }

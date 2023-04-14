@@ -1,26 +1,53 @@
 package com.kimsg130.gyustagram.service.impl;
 
+
 import com.kimsg130.gyustagram.dto.ResponseDto;
-import com.kimsg130.gyustagram.dto.SignUpDto;
+import com.kimsg130.gyustagram.dto.SignupDto;
+import com.kimsg130.gyustagram.dto.TokenDto;
 import com.kimsg130.gyustagram.model.User;
 import com.kimsg130.gyustagram.repository.UserRepository;
+import com.kimsg130.gyustagram.security.JwtTokenProvider;
 import com.kimsg130.gyustagram.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 
 @Service
+@Transactional(readOnly = true)
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired UserRepository userRepository;
 
+    private final UserRepository userRepository;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public boolean existsEmail(String email) {
-        Optional<User> users = userRepository.findByEmail(email);
+    @Transactional
+    public TokenDto login(String userId, String password) {
+
+        // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
+        // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, password);
+
+        // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
+        // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
+
+        return tokenDto;
+    }
+
+    @Override
+    public boolean existsId(String userId) {
+        Optional<User> users = userRepository.findByUserId(userId);
 
         if(users.isEmpty())
             return false;
@@ -29,14 +56,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseDto<?> signUp(SignUpDto dto) {
-        String userEmail = dto.getEmail();
+    public ResponseDto<?> signup(SignupDto dto) {
+        String userId = dto.getUserId();
         String userPassword = dto.getPassword();
         String userPasswordCheck = dto.getPasswordCheck();
 
         // email중복확인
         try{
-            if(existsEmail(userEmail))
+            if(existsId(userId))
                 return ResponseDto.setFailed("Existed Email!!");
         } catch (Exception e) {
             return ResponseDto.setFailed("DataBase Error!!");
@@ -47,7 +74,7 @@ public class UserServiceImpl implements UserService {
         if(!userPassword.equals(userPasswordCheck))
             return ResponseDto.setFailed("Password does not matched!");
 
-        // User생성
+        // User생성 TODO : 수정된 테이블에 따라서 회원가입 수정
         User user = new User(dto);
 
         try{
@@ -60,39 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 }
 
-//    private UserRepository userRepository;
-//    @Override
-//    public User createUser(User user) {
-//        return userRepository.save(user);
-//    }
+//@Autowired UserRepository userRepository;
 //
-//    @Override
-//    public User getUserById(Long id) {
-//        Optional<User> optionalUser = userRepository.findById(id);
-//        return optionalUser.get();
-//    }
 //
-//    @Override
-//    public List<User> getAllUser() {
-//        return userRepository.findAll();
-//    }
-//
-//    @Override
-//    public User updateUser(User user) {
-//        User existingUser = userRepository.findById(user.getId()).get();
-//        existingUser.setEmail(user.getEmail());
-//        existingUser.setPhone(user.getPhone());
-//        existingUser.setPassword(user.getPassword());
-//        existingUser.setName(user.getName());
-//        existingUser.setNickname(user.getNickname());
-//        existingUser.setComment(user.getComment());
-//        existingUser.setImage(user.getImage());
-//        User updatedUser = userRepository.save(existingUser);
-//        return updatedUser;
-//    }
-//
-//    @Override
-//    public void deleteUser(Long id) {
-//        userRepository.deleteById(id);
-//    }
 

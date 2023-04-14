@@ -1,15 +1,20 @@
 package com.kimsg130.gyustagram.service;
 
 import com.kimsg130.gyustagram.dto.ResponseDto;
-import com.kimsg130.gyustagram.dto.SignUpDto;
-import com.kimsg130.gyustagram.model.User;
-
-import java.util.List;
-import java.util.Optional;
+import com.kimsg130.gyustagram.dto.SignupDto;
+import com.kimsg130.gyustagram.dto.TokenDto;
 
 public interface UserService {
-    public boolean existsEmail(String email);
-    public ResponseDto<?> signUp(SignUpDto dto);
+
+    //로그인 서비스
+    public TokenDto login(String userId, String password);
+
+    //회원가입 서비스
+    public boolean existsId(String userId);
+    public ResponseDto<?> signup(SignupDto dto);
+
+}
+
 
 
 
@@ -22,5 +27,3 @@ public interface UserService {
 //    User updateUser(User user); // Update
 //
 //    void deleteUser(Long id); // Delete
-
-}

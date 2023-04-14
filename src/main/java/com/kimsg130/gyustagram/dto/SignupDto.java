@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpDto { //회원가입시 보내줄 객체
-    private String email;
-    private String phone;
+public class SignupDto { //회원가입시 보내줄 객체
+    private String userId;
     private String password;
     private String passwordCheck;
+    private String email;
+    private String phone;
     private String name;
     private String nickname;
     private String comment;

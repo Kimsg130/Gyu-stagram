@@ -16,6 +16,7 @@ function Authentication() {
         movePage("/login");
     }
 
+    // TODO : 회원가입 페이지 변경
     return (
         <Container>
             <p>홈</p>

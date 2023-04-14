@@ -1,47 +1,70 @@
 package com.kimsg130.gyustagram.model;
 
-import com.kimsg130.gyustagram.dto.SignUpDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@ToString
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User { //유저테이블
+public class User implements UserDetails {  // user테이블 TODO : userDetails랑 userRoles 모델추가
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(updatable = false, unique = true, nullable = false)
+    private String userId;
 
-    @Column(length = 100, nullable = false)
-    private String email;
-
-    @Column(length = 20, nullable = false)
-    private String phone;
-
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(length = 100, nullable = false)
-    private String name;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
 
-    @Column(length = 100, nullable = false)
-    private String nickname;
-
-    @Column(length = 100, nullable = true)
-    private String comment;
-
-    @Column(length = 100, nullable = true)
-    private String image;
-
-    public User(SignUpDto dto) {
-        this.email = dto.getEmail();
-        this.phone = dto.getPhone();
-        this.password = dto.getPassword();
-        this.name = dto.getName();
-        this.nickname = dto.getNickname();
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 }
