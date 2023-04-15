@@ -5,7 +5,9 @@ import com.kimsg130.gyustagram.dto.ResponseDto;
 import com.kimsg130.gyustagram.dto.SignupDto;
 import com.kimsg130.gyustagram.dto.TokenDto;
 import com.kimsg130.gyustagram.model.User;
+import com.kimsg130.gyustagram.model.User_Details;
 import com.kimsg130.gyustagram.repository.UserRepository;
+import com.kimsg130.gyustagram.repository.User_DetailsRepository;
 import com.kimsg130.gyustagram.security.JwtTokenProvider;
 import com.kimsg130.gyustagram.service.UserService;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final User_DetailsRepository user_detailsRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -64,26 +67,28 @@ public class UserServiceImpl implements UserService {
         // email중복확인
         try{
             if(existsId(userId))
-                return ResponseDto.setFailed("Existed Email!!");
+                return ResponseDto.setFailed("Existed id!!");
         } catch (Exception e) {
             return ResponseDto.setFailed("DataBase Error!!");
         }
-
 
         // 비밀번호 체크!
         if(!userPassword.equals(userPasswordCheck))
             return ResponseDto.setFailed("Password does not matched!");
 
-        // User생성 TODO : 수정된 테이블에 따라서 회원가입 수정
+        // User생성 TODO : 리스트로 저장해서 saveAll로 바꾸기,   DONE : 수정된 테이블에 따라서 회원가입 수정
         User user = new User(dto);
+        User_Details user_details = new User_Details(dto);
 
         try{
-            userRepository.save(user);
+            userRepository.saveAndFlush(user);
+            user_detailsRepository.saveAndFlush(user_details);
+
         } catch (Exception e) {
             return  ResponseDto.setFailed("DataBase Error!!(save)");
         }
         // 성공!
-        return ResponseDto.setSuccess("SignUp Success!!", null);
+        return ResponseDto.setSuccess("Signup Success!!", null);
     }
 }
 

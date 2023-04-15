@@ -1,13 +1,12 @@
 package com.kimsg130.gyustagram.controller;
 
 import com.kimsg130.gyustagram.dto.LoginRequestDto;
+import com.kimsg130.gyustagram.dto.ResponseDto;
+import com.kimsg130.gyustagram.dto.SignupDto;
 import com.kimsg130.gyustagram.dto.TokenDto;
 import com.kimsg130.gyustagram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,14 +24,16 @@ public class AuthController {
         return tokenDto;
     }
 
+    @PostMapping("/signup")
+    public ResponseDto<?> signUp(@RequestBody SignupDto requestBody){
+        ResponseDto<?> result = userService.signup(requestBody);
+        return result;
+    }
+
     @PostMapping("/test")
     public String test() {
         return "success";
     }
 
-//    @PostMapping("/signup")
-//    public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody){
-//        ResponseDto<?> result = userService.signUp(requestBody);
-//        return result;
-//    }
+
 }

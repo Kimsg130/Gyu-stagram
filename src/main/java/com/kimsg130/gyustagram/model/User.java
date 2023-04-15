@@ -1,5 +1,6 @@
 package com.kimsg130.gyustagram.model;
 
+import com.kimsg130.gyustagram.dto.SignupDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User implements UserDetails {  // user테이블 TODO : userDetails랑 userRoles 모델추가
+public class User implements UserDetails {  // user테이블 DONE : userDetails랑 userRoles 모델추가
 
     @Id
     @Column(updatable = false, unique = true, nullable = false)
@@ -29,6 +30,12 @@ public class User implements UserDetails {  // user테이블 TODO : userDetails�
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    public User(SignupDto dto) {
+        this.userId = dto.getUserId();
+        this.password = dto.getPassword();
+
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

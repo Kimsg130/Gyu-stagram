@@ -10,8 +10,10 @@ public interface UserService {
     public TokenDto login(String userId, String password);
 
     //회원가입 서비스
-    public boolean existsId(String userId);
     public ResponseDto<?> signup(SignupDto dto);
+
+    //회원가입할 때 아이디가 존재하는지 판단하는 메서드
+    public boolean existsId(String userId);
 
 }
 

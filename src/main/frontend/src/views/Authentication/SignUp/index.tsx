@@ -10,6 +10,7 @@ import './style.css';
 
 export default function SignUp() {
 
+    const [userId, setUserId] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -18,6 +19,7 @@ export default function SignUp() {
     const [nickname, setNickName] = useState<string>('');
     const signUpHandler = () => {
         const data = {
+            userId,
             email,
             phone,
             password,
@@ -26,7 +28,7 @@ export default function SignUp() {
             nickname
         };
         axios
-            .post('http://localhost:8082/api/auth/signUp', data)
+            .post('http://localhost:8082/api/auth/signup', data)
             .then((response) => {
 
             })
@@ -40,6 +42,15 @@ export default function SignUp() {
             <h3>회원가입</h3>
             <CardContent>
                 <Box>
+                    <TextField
+                        fullWidth
+                        required
+                        id="outlined-required"
+                        type="text"
+                        label="Id"
+                        margin="dense"
+                        onChange={(e) => setUserId(e.target.value)}
+                    />
                     <TextField
                         fullWidth
                         required
