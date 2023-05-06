@@ -21,7 +21,7 @@ import java.util.Optional;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -76,23 +76,20 @@ public class UserServiceImpl implements UserService {
         if(!userPassword.equals(userPasswordCheck))
             return ResponseDto.setFailed("Password does not matched!");
 
-        // User생성 TODO : 리스트로 저장해서 saveAll로 바꾸기,   DONE : 수정된 테이블에 따라서 회원가입 수정
+        // User생성 DONE : 수정된 테이블에 따라서 회원가입 수정s
         User user = new User(dto);
         User_Details user_details = new User_Details(dto);
 
         try{
-            userRepository.saveAndFlush(user);
-            user_detailsRepository.saveAndFlush(user_details);
+            userRepository.save(user);
+            user_detailsRepository.save(user_details);
 
         } catch (Exception e) {
-            return  ResponseDto.setFailed("DataBase Error!!(save)");
+            return  ResponseDto.setFailed("DataBase Error!!(save_user)");
         }
+
         // 성공!
         return ResponseDto.setSuccess("Signup Success!!", null);
     }
 }
-
-//@Autowired UserRepository userRepository;
-//
-//
 
