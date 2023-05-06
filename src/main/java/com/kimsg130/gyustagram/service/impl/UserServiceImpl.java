@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         if(!userPassword.equals(userPasswordCheck))
             return ResponseDto.setFailed("Password does not matched!");
 
-        // User생성 DONE : 수정된 테이블에 따라서 회원가입 수정s
+        // User생성 DONE : 수정된 테이블에 따라서 회원가입 수정, 트랜잭션 문제가 있었음
         User user = new User(dto);
         User_Details user_details = new User_Details(dto);
 

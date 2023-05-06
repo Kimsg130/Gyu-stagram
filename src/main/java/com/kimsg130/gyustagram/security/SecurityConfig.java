@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //DONE : cors로 추정되는 버그 고치기
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //DONE : cors로 추정되는 버그 고치기 설정문제 였음
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/").permitAll()
