@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //DONE : cors로 추정되는 버그 고치기 설정문제 였음
+                .csrf().disable() //TODO : csrf로 추정되는 버그 403에러가 계속 남
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/").permitAll()

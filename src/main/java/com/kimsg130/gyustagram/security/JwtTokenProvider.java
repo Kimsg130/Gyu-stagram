@@ -50,7 +50,7 @@ public class JwtTokenProvider {
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 3600000)) //유효기간 1시간
+                .setExpiration(new Date(now + 1000L * 60 * 60 * 24 * 7)) //유효기간 일주일
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 

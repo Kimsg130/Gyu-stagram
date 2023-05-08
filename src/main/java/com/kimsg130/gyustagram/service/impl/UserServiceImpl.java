@@ -1,9 +1,7 @@
 package com.kimsg130.gyustagram.service.impl;
 
 
-import com.kimsg130.gyustagram.dto.ResponseDto;
-import com.kimsg130.gyustagram.dto.SignupDto;
-import com.kimsg130.gyustagram.dto.TokenDto;
+import com.kimsg130.gyustagram.dto.*;
 import com.kimsg130.gyustagram.model.User;
 import com.kimsg130.gyustagram.model.User_Details;
 import com.kimsg130.gyustagram.repository.UserRepository;
@@ -91,5 +89,23 @@ public class UserServiceImpl implements UserService {
         // 성공!
         return ResponseDto.setSuccess("Signup Success!!", null);
     }
+
+//    public ResponseDto<SignInResponseDto> signIn(LoginRequestDto dto) {
+//        String userId = dto.getUserId();
+//        String userPassword = dto.getPassword();
+//        boolean existed = userRepository.existsByIdAndPassword(userId, userPassword);
+//
+//        if(!existed) return ResponseDto.setFailed("SignIn Information Does Not Match");
+//
+//        User user = userRepository.findByUserId(userId).get();
+//        user.setPassword("");
+//
+//        String token = "";
+//        int exprTime = 3600000;
+//
+//        SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, user);
+//        return ResponseDto.setSuccess("Sign In Success", signInResponseDto);
+//
+//    }
 }
 
