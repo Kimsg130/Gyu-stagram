@@ -4,8 +4,11 @@ import axios from 'axios';
 import Authentication from "./views/Authentication";
 import {Button, Container} from "@mui/material";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SignUp from "./views/Authentication/SignUp";
 import LogIn from "./views/Authentication/LogIn";
+import MyPage from "./views/MyPage";
+import Navigation from "./views/Navigation";
 
 
 function App() {
@@ -25,9 +28,13 @@ function App() {
                     <Route path={"/home"} element={<Authentication />}></Route>
                     <Route path={"/signup"} element={<SignUp />}></Route>
                     <Route path={"/login"} element={<LogIn />}></Route>
+                    <Route path={"/mypage"} element={<MyPage />}></Route>
                 </Routes>
-                <Authentication />
+                {/*<Authentication />*/}
+                <Navigation />
+                <MyPage />
             </BrowserRouter>
+
         </div>
     );
 }
