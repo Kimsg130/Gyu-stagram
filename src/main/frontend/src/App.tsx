@@ -9,6 +9,7 @@ import SignUp from "./views/Authentication/SignUp";
 import LogIn from "./views/Authentication/LogIn";
 import MyPage from "./views/MyPage";
 import Navigation from "./views/Navigation";
+import {RecoilRoot} from "recoil";
 
 
 function App() {
@@ -23,18 +24,19 @@ function App() {
 
     return (
         <div className={"App"}>
-            <BrowserRouter>
-                <Routes>
-                    <Route path={"/home"} element={<Authentication />}></Route>
-                    <Route path={"/signup"} element={<SignUp />}></Route>
-                    <Route path={"/login"} element={<LogIn />}></Route>
-                    <Route path={"/mypage"} element={<MyPage />}></Route>
-                </Routes>
-                {/*<Authentication />*/}
-                <Navigation />
-                <MyPage />
-            </BrowserRouter>
+            <RecoilRoot>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path={"/home"} element={<Authentication />}></Route>
+                        <Route path={"/signup"} element={<SignUp />}></Route>
+                        <Route path={"/login"} element={<LogIn />}></Route>
+                        <Route path={"/profile"} element={<MyPage />}></Route>
+                    </Routes>
+                    {/*<Authentication />*/}
+                    <Navigation />
 
+                </BrowserRouter>
+            </RecoilRoot>
         </div>
     );
 }

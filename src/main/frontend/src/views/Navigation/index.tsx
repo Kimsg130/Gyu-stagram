@@ -12,7 +12,7 @@ const Navigation = () => {
         <Wrapper>
             <Icon onClick={() => movePage('/signup')}><HomeIcon fontSize="large" /></Icon>
             <Icon onClick={() => movePage('/login')}><AccountCircleIcon fontSize="large" /></Icon>
-
+            <Icon onClick={() => movePage('/profile')}><AccountCircleIcon fontSize="large" /></Icon>
         </Wrapper>
     );
 };
