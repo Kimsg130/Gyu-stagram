@@ -1,49 +1,90 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {ImageList, ImageListItem} from "@mui/material";
 import {useRecoilValue} from "recoil";
 import {tokenState} from "../../recoil/tokenState";
+import axios from "axios";
 
 type PostImageProps = {
     src: string;
 };
 
 const MyPage = () => {
+
     const userId : string | null = useRecoilValue(tokenState).userId;
+    const [user_comment, setUser_comment ] = useState('');
+    const [user_image, setUser_image ] = useState('');
+    const [user_name, setUser_name ] = useState('');
+    const [posts, setPosts] = useState<Posts[]>([]);
+    const [user_follower, setUser_follower ] = useState(0);
+    const [user_following, setUser_following ] = useState(0);
+
+    interface Posts {
+        post_id : number,
+        explains : string,
+        images : string,
+        post_date : string,
+        user_id : string,
+    }
 
     const user = {
-        name: userId,
-        description: '사용자 설명',
-        profileImageUrl: 'https://picsum.photos/id/237/200/300',
-        followerCount: 500,
-        followingCount: 500,
+        u_id: userId,
+        name: user_name,
+        description: user_comment,
+        profileImageUrl: user_image,
+        postingCount : posts.length,
+        followerCount: user_follower,
+        followingCount: user_following,
     };
 
+    // const postImageUrls : string[] = [
+    //     'https://picsum.photos/id/234/200/200',
+    //     'https://picsum.photos/id/235/200/200',
+    //     'https://picsum.photos/id/236/200/200',
+    //     'https://picsum.photos/id/237/200/200',
+    //     'https://picsum.photos/id/238/200/200',
+    //     'https://picsum.photos/id/239/200/200',
+    //     'https://picsum.photos/id/240/200/200',
+    //     'https://picsum.photos/id/241/200/200',
+    //     'https://picsum.photos/id/242/200/200',
+    // ];
 
-    const postImageUrls = [
-        'https://picsum.photos/id/234/200/200',
-        'https://picsum.photos/id/235/200/200',
-        'https://picsum.photos/id/236/200/200',
-        'https://picsum.photos/id/237/200/200',
-        'https://picsum.photos/id/238/200/200',
-        'https://picsum.photos/id/239/200/200',
-        'https://picsum.photos/id/240/200/200',
-        'https://picsum.photos/id/241/200/200',
-        'https://picsum.photos/id/242/200/200',
-    ];
+    useEffect(() => { //특정한 state가 바뀌면 실행됨, deps를 비워두면 맨처음 한번만 실행됨
+        axios.get('http://localhost:8082/profile', {
+            params : {
+                userId: userId
+            }
+        })
+            .then(response => {
+                const userInfo = response.data;
+                console.log(userInfo);
+                setUser_comment(userInfo.comment);
+                setUser_image(userInfo.image);
+                setUser_name(userInfo.name);
+                setPosts(userInfo.posts);
+                setUser_follower(userInfo.follower);
+                setUser_following(userInfo.following);
+
+            })
+            .catch(error => console.log(error))
+
+    }, []);
+
 
     return (
         <Container>
             <ProfileWrapper>
                 <ProfileImage src={user.profileImageUrl} />
                 <ProfileInfo>
-                    <ProfileName>{user.name}</ProfileName>
-                    <ProfileDescription>{user.description}</ProfileDescription>
+                    <ProfileName>{user.u_id}</ProfileName>
+                    <ProfileDescription>{user.name}<br/>{user.description}</ProfileDescription>
                     <FollowInfo>
-                        <FollowCount>{user.followerCount}</FollowCount>
-                        <FollowLabel>followers&nbsp;&nbsp;</FollowLabel>
+                        <FollowLabel>게시글</FollowLabel>
+                        <FollowCount>{user.postingCount}&nbsp;&nbsp;</FollowCount>
+                        <FollowLabel>팔로워</FollowLabel>
+                        <FollowCount>{user.followerCount}&nbsp;&nbsp;</FollowCount>
+                        <FollowLabel>팔로잉</FollowLabel>
                         <FollowCount>{user.followingCount}</FollowCount>
-                        <FollowLabel>following</FollowLabel>
                     </FollowInfo>
                 </ProfileInfo>
             </ProfileWrapper>
@@ -51,12 +92,12 @@ const MyPage = () => {
             <hr />
             <PostGrid>
                 <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-                    {postImageUrls.map((url) => (
-                        <ImageListItem key={url}>
+                    {posts.map((post) => (
+                        <ImageListItem key={post.post_id}>
                             <img
-                                src={`${url}?w=164&h=164&fit=crop&auto=format`}
-                                srcSet={`${url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                alt={url}
+                                src={`${post.images}?w=164&h=164&fit=crop&auto=format`}
+                                srcSet={`${post.images}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                                alt={post.images}
                                 loading="lazy"
                             />
                         </ImageListItem>

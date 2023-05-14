@@ -3,6 +3,7 @@ package com.kimsg130.gyustagram.service;
 import com.kimsg130.gyustagram.dto.ResponseDto;
 import com.kimsg130.gyustagram.dto.SignupDto;
 import com.kimsg130.gyustagram.dto.TokenDto;
+import com.kimsg130.gyustagram.model.User_Details;
 
 public interface UserService {
 
@@ -15,6 +16,7 @@ public interface UserService {
     //회원가입할 때 아이디가 존재하는지 판단하는 메서드
     public boolean existsId(String userId);
 
+    public User_Details getUserDetails(String userId);
 }
 
 

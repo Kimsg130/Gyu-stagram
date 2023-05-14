@@ -57,6 +57,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User_Details getUserDetails(String userId) {
+        return user_detailsRepository.findByUserId(userId);
+    }
+
+    @Override
     public ResponseDto<?> signup(SignupDto dto) {
         String userId = dto.getUserId();
         String userPassword = dto.getPassword();
@@ -90,22 +95,6 @@ public class UserServiceImpl implements UserService {
         return ResponseDto.setSuccess("Signup Success!!", null);
     }
 
-//    public ResponseDto<SignInResponseDto> signIn(LoginRequestDto dto) {
-//        String userId = dto.getUserId();
-//        String userPassword = dto.getPassword();
-//        boolean existed = userRepository.existsByIdAndPassword(userId, userPassword);
-//
-//        if(!existed) return ResponseDto.setFailed("SignIn Information Does Not Match");
-//
-//        User user = userRepository.findByUserId(userId).get();
-//        user.setPassword("");
-//
-//        String token = "";
-//        int exprTime = 3600000;
-//
-//        SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, user);
-//        return ResponseDto.setSuccess("Sign In Success", signInResponseDto);
-//
-//    }
+
 }
 

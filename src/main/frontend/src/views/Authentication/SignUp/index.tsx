@@ -16,7 +16,6 @@ export default function SignUp() {
     const [password, setPassword] = useState<string>('');
     const [passwordCheck, setPasswordCheck] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [nickname, setNickName] = useState<string>('');
     const signUpHandler = () => {
         const data = {
             userId,
@@ -24,8 +23,7 @@ export default function SignUp() {
             phone,
             password,
             passwordCheck,
-            name,
-            nickname
+            name
         };
         axios
             .post('http://localhost:8082/api/auth/signup', data)
@@ -95,15 +93,7 @@ export default function SignUp() {
                         margin="dense"
                         onChange={(e) => setName(e.target.value)}
                     />
-                    <TextField
-                        fullWidth
-                        required
-                        id="outlined-required"
-                        label="Nick Name"
-                        defaultValue=""
-                        margin="dense"
-                        onChange={(e) => setNickName(e.target.value)}
-                    />
+
                 </Box>
             </CardContent>
             <CardActions>

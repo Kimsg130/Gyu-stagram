@@ -1,15 +1,30 @@
 package com.kimsg130.gyustagram.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.kimsg130.gyustagram.dto.UserInfoDto;
+import com.kimsg130.gyustagram.service.FollowService;
+import com.kimsg130.gyustagram.service.PostsService;
+import com.kimsg130.gyustagram.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController // @Contoller + @ResponseBody
-@RequestMapping("/")
+@RequestMapping("*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
-//    @GetMapping("")
-//    public String hello(){
-//        return "Connection Successful";
-//    }
+
+    @Autowired
+    PostsService postsService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    FollowService followService;
+
+    @GetMapping("profile")
+    public UserInfoDto post(@RequestParam String userId){
+
+        UserInfoDto dto = new UserInfoDto(userService.getUserDetails(userId), postsService.getPostsByUserId(userId), followService.getFollwerByFollwing(userId), followService.getFollowingByFollwer(userId));
+
+        return dto;
+    }
+
 }

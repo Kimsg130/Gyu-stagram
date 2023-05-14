@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -30,7 +32,7 @@ public class User_Details {
     private String name;
 
     @Column(nullable = false)
-    private String nickName;
+    private LocalDateTime regDate;
 
     @Column
     private String comment;
@@ -43,7 +45,6 @@ public class User_Details {
         this.email = dto.getEmail();
         this.phone = dto.getPhone();
         this.name = dto.getName();
-        this.nickName = dto.getNickname();
         this.comment = dto.getComment();
         this.image = dto.getImage();
     }
