@@ -4,31 +4,51 @@ import {ImageList, ImageListItem} from "@mui/material";
 import {useRecoilValue} from "recoil";
 import {tokenState} from "../../recoil/tokenState";
 import axios from "axios";
+import './style.css';
+import Navigation from "../Navigation";
+import PostPage from "../PostPage";
 
-type PostImageProps = {
-    src: string;
-};
+// type PostImageProps = {
+//     src: string;
+// };
 
 const MyPage = () => {
 
-    const userId : string | null = useRecoilValue(tokenState).userId;
+    const rogin_UserId : string | null = useRecoilValue(tokenState).userId;
     const [user_comment, setUser_comment ] = useState('');
     const [user_image, setUser_image ] = useState('');
     const [user_name, setUser_name ] = useState('');
     const [posts, setPosts] = useState<Posts[]>([]);
     const [user_follower, setUser_follower ] = useState(0);
     const [user_following, setUser_following ] = useState(0);
+    const [open, setOpen] = useState(false);
+    const [selectedPost, setSelectedPost] = useState<Posts>({
+        postId : 0,
+        explains : '',
+        images : '',
+        postdate : '',
+        userId : '',
+    });
+
+    const handleClickOpen = (post : Posts) => {
+        setOpen(true);
+        setSelectedPost(post);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     interface Posts {
-        post_id : number,
+        postId : number,
         explains : string,
         images : string,
-        post_date : string,
-        user_id : string,
+        postdate : string,
+        userId : string,
     }
 
     const user = {
-        u_id: userId,
+        u_id: rogin_UserId,
         name: user_name,
         description: user_comment,
         profileImageUrl: user_image,
@@ -47,12 +67,14 @@ const MyPage = () => {
     //     'https://picsum.photos/id/240/200/200',
     //     'https://picsum.photos/id/241/200/200',
     //     'https://picsum.photos/id/242/200/200',
+    //     'https://picsum.photos/id/242/200/200',
+    //     'https://picsum.photos/id/242/200/200',
     // ];
 
     useEffect(() => { //특정한 state가 바뀌면 실행됨, deps를 비워두면 맨처음 한번만 실행됨
         axios.get('http://localhost:8082/profile', {
             params : {
-                userId: userId
+                userId: rogin_UserId
             }
         })
             .then(response => {
@@ -91,9 +113,9 @@ const MyPage = () => {
             <br />
             <hr />
             <PostGrid>
-                <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+                <ImageList sx={{ width: 500, height: 450, }} cols={3} rowHeight={164} className={"grid"}>
                     {posts.map((post) => (
-                        <ImageListItem key={post.post_id}>
+                        <ImageListItem key={post.postId} className={"post"} onClick={() => handleClickOpen(post)}>
                             <img
                                 src={`${post.images}?w=164&h=164&fit=crop&auto=format`}
                                 srcSet={`${post.images}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
@@ -108,7 +130,10 @@ const MyPage = () => {
                     <UploadText>Upload</UploadText>
                 </UploadButton>
             </PostGrid>
+            <PostPage open={open} handleClose={handleClose} post={selectedPost}/>
+            <Navigation />
         </Container>
+
     );
 };
 
@@ -163,6 +188,8 @@ const PostGrid = styled.div`
   margin-top: 40px;
 `;
 
+
+
 const UploadButton = styled.div`
   display: flex;
   align-items: center;
@@ -202,3 +229,15 @@ const FollowLabel = styled.span`
 `;
 
 export default MyPage;
+
+
+//{postImageUrls.map((post) => (
+//                         <ImageListItem key={post} className={"post"}>
+//                             <img
+//                                 src={`${post}?w=164&h=164&fit=crop&auto=format`}
+//                                 srcSet={`${post}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+//                                 alt={post}
+//                                 loading="lazy"
+//                             />
+//                         </ImageListItem>
+//                     ))}

@@ -3,13 +3,14 @@ import './App.css';
 import axios from 'axios';
 import Authentication from "./views/Authentication";
 import {Button, Container} from "@mui/material";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SignUp from "./views/Authentication/SignUp";
 import LogIn from "./views/Authentication/LogIn";
 import MyPage from "./views/MyPage";
 import Navigation from "./views/Navigation";
-import {RecoilRoot} from "recoil";
+import {RecoilRoot, useRecoilValue} from "recoil";
+import {tokenState} from "./recoil/tokenState";
 
 
 function App() {
@@ -20,23 +21,27 @@ function App() {
     //         .then(response => setHello(response.data))
     //         .catch(error => console.log(error))
     // }, []);
-
+    const userId : string | null = useRecoilValue(tokenState).userId;
 
     return (
         <div className={"App"}>
-            <RecoilRoot>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path={"/home"} element={<Authentication />}></Route>
-                        <Route path={"/signup"} element={<SignUp />}></Route>
-                        <Route path={"/login"} element={<LogIn />}></Route>
-                        <Route path={"/profile"} element={<MyPage />}></Route>
-                    </Routes>
-                    {/*<Authentication />*/}
-                    <Navigation />
+            <BrowserRouter>
+                <Routes>
+                    <Route path={"/"} element={
+                        userId ? (
+                            <MyPage />
+                        ) : (
+                            <Navigate to={"/login"} />
+                        )
+                    } />
+                    <Route path={"/signup"} element={userId ? <Navigate to={"/"} /> : <SignUp />}></Route>
+                    <Route path={"/login"} element={userId ? <Navigate to={"/"} /> : <LogIn />}></Route>
+                    <Route path={"/profile"} element={userId ? <MyPage /> : <Navigate to={"/login"} /> }></Route>
+                </Routes>
+                {/*<Authentication />*/}
 
-                </BrowserRouter>
-            </RecoilRoot>
+
+            </BrowserRouter>
         </div>
     );
 }

@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 import {Box, Button, TextField} from "@mui/material";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';

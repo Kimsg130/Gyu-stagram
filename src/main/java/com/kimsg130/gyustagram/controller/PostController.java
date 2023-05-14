@@ -1,6 +1,7 @@
 package com.kimsg130.gyustagram.controller;
 
 import com.kimsg130.gyustagram.dto.UserInfoDto;
+import com.kimsg130.gyustagram.model.Posts;
 import com.kimsg130.gyustagram.service.FollowService;
 import com.kimsg130.gyustagram.service.PostsService;
 import com.kimsg130.gyustagram.service.UserService;
@@ -20,11 +21,15 @@ public class PostController {
     FollowService followService;
 
     @GetMapping("profile")
-    public UserInfoDto post(@RequestParam String userId){
+    public UserInfoDto getUserInfo(@RequestParam String userId) {
 
         UserInfoDto dto = new UserInfoDto(userService.getUserDetails(userId), postsService.getPostsByUserId(userId), followService.getFollwerByFollwing(userId), followService.getFollowingByFollwer(userId));
-
         return dto;
     }
 
+    @GetMapping("post") // 아직 no쓸모지만 나중을 위해 남겨놓음
+    public Posts getPost(@RequestParam int postId) {
+
+        return postsService.getPostByPostId(postId);
+    }
 }

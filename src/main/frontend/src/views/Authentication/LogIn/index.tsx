@@ -6,6 +6,7 @@ import CardActions from "@mui/material/CardActions";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {tokenState} from "../../../recoil/tokenState";
+import { useNavigate } from "react-router-dom";
 
 function Index() {
     //로그인페이지 구현
@@ -13,6 +14,7 @@ function Index() {
     const [password, setPassword] = useState<string>('');
     //recoil을 통해 어세스토큰과 유저아이디를 localstorage에 저장
     const [accessToken, setTokenState] = useRecoilState(tokenState);
+    const movePage = useNavigate();
 
     const signInHandler = () : void => {
         if(userId.length === 0 || password.length === 0) {
@@ -37,6 +39,8 @@ function Index() {
                 console.log(error);
                 alert('로그인에 실패.');
         });
+
+        movePage("/profile");
     }
 
     return (

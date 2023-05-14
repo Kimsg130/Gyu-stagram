@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MyPage from "../MyPage";
 
 
 const Navigation = () => {
@@ -10,8 +11,7 @@ const Navigation = () => {
 
     return (
         <Wrapper>
-            <Icon onClick={() => movePage('/signup')}><HomeIcon fontSize="large" /></Icon>
-            <Icon onClick={() => movePage('/login')}><AccountCircleIcon fontSize="large" /></Icon>
+            <Icon onClick={() => movePage('/')}><HomeIcon fontSize="large" /></Icon>
             <Icon onClick={() => movePage('/profile')}><AccountCircleIcon fontSize="large" /></Icon>
         </Wrapper>
     );
