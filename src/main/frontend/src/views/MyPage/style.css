@@ -1,6 +1,16 @@
 .post:hover {
-    filter: opacity(0.4) drop-shadow(0 0 0 black);
+    filter: brightness(60%);
 }
+
+.post {
+
+}
+
 .grid {
     overflow: visible;
+    margin-left: -10%;
+}
+
+.spacer {
+    flex: 1;
 }

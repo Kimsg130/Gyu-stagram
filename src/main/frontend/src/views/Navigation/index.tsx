@@ -6,13 +6,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MyPage from "../MyPage";
 
 
-const Navigation = () => {
+const Navigation = ({userid}: { userid : string | null}) => {
     const movePage = useNavigate();
 
     return (
         <Wrapper>
             <Icon onClick={() => movePage('/')}><HomeIcon fontSize="large" /></Icon>
-            <Icon onClick={() => movePage('/profile')}><AccountCircleIcon fontSize="large" /></Icon>
+            <Icon onClick={() => movePage('/'+userid)}><AccountCircleIcon fontSize="large" /></Icon>
         </Wrapper>
     );
 };

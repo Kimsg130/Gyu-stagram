@@ -6,15 +6,19 @@ import {tokenState} from "../../recoil/tokenState";
 import axios from "axios";
 import './style.css';
 import Navigation from "../Navigation";
-import PostPage from "../PostPage";
+import Modal from "../Modal";
+import {useParams} from "react-router-dom";
 
 // type PostImageProps = {
 //     src: string;
 // };
 
 const MyPage = () => {
-
+    const { userid } = useParams();
     const rogin_UserId : string | null = useRecoilValue(tokenState).userId;
+
+    const finalUserId = userid || rogin_UserId;
+
     const [user_comment, setUser_comment ] = useState('');
     const [user_image, setUser_image ] = useState('');
     const [user_name, setUser_name ] = useState('');
@@ -26,7 +30,7 @@ const MyPage = () => {
         postId : 0,
         explains : '',
         images : '',
-        postdate : '',
+        postDate : new Date(),
         userId : '',
     });
 
@@ -40,15 +44,15 @@ const MyPage = () => {
     };
 
     interface Posts {
-        postId : number,
-        explains : string,
-        images : string,
-        postdate : string,
-        userId : string,
+        postId : number;
+        explains : string;
+        images : string;
+        postDate : Date;
+        userId : string;
     }
 
     const user = {
-        u_id: rogin_UserId,
+        u_id: finalUserId,
         name: user_name,
         description: user_comment,
         profileImageUrl: user_image,
@@ -74,7 +78,7 @@ const MyPage = () => {
     useEffect(() => { //특정한 state가 바뀌면 실행됨, deps를 비워두면 맨처음 한번만 실행됨
         axios.get('http://localhost:8082/profile', {
             params : {
-                userId: rogin_UserId
+                userId: finalUserId
             }
         })
             .then(response => {
@@ -94,26 +98,26 @@ const MyPage = () => {
 
 
     return (
-        <Container>
-            <ProfileWrapper>
-                <ProfileImage src={user.profileImageUrl} />
-                <ProfileInfo>
-                    <ProfileName>{user.u_id}</ProfileName>
-                    <ProfileDescription>{user.name}<br/>{user.description}</ProfileDescription>
-                    <FollowInfo>
-                        <FollowLabel>게시글</FollowLabel>
-                        <FollowCount>{user.postingCount}&nbsp;&nbsp;</FollowCount>
-                        <FollowLabel>팔로워</FollowLabel>
-                        <FollowCount>{user.followerCount}&nbsp;&nbsp;</FollowCount>
-                        <FollowLabel>팔로잉</FollowLabel>
-                        <FollowCount>{user.followingCount}</FollowCount>
-                    </FollowInfo>
-                </ProfileInfo>
-            </ProfileWrapper>
-            <br />
-            <hr />
-            <PostGrid>
-                <ImageList sx={{ width: 500, height: 450, }} cols={3} rowHeight={164} className={"grid"}>
+        <div>
+            <Container>
+                <ProfileWrapper className={"profileWrapper"}>
+                    <ProfileImage src={user.profileImageUrl} />
+                    <ProfileInfo>
+                        <ProfileName>{user.u_id}</ProfileName>
+                        <ProfileDescription>{user.name}<br/>{user.description}</ProfileDescription>
+                        <FollowInfo>
+                            <FollowLabel>게시글</FollowLabel>
+                            <FollowCount>{user.postingCount}&nbsp;&nbsp;</FollowCount>
+                            <FollowLabel>팔로워</FollowLabel>
+                            <FollowCount>{user.followerCount}&nbsp;&nbsp;</FollowCount>
+                            <FollowLabel>팔로잉</FollowLabel>
+                            <FollowCount>{user.followingCount}</FollowCount>
+                        </FollowInfo>
+                    </ProfileInfo>
+                </ProfileWrapper>
+                <br />
+                <hr />
+                <ImageList sx={{ width: 700, height: 500, }} cols={3} rowHeight={164} className={"grid"}>
                     {posts.map((post) => (
                         <ImageListItem key={post.postId} className={"post"} onClick={() => handleClickOpen(post)}>
                             <img
@@ -125,15 +129,10 @@ const MyPage = () => {
                         </ImageListItem>
                     ))}
                 </ImageList>
-                <UploadButton>
-                    <UploadIcon />
-                    <UploadText>Upload</UploadText>
-                </UploadButton>
-            </PostGrid>
-            <PostPage open={open} handleClose={handleClose} post={selectedPost}/>
-            <Navigation />
-        </Container>
-
+                <Navigation userid={rogin_UserId}/>
+            </Container>
+            {open && <Modal open={open} handleClose={handleClose} post={selectedPost}/>}
+        </div>
     );
 };
 
@@ -152,7 +151,7 @@ const Wrapper = styled.div`
 
 const ProfileWrapper = styled.div`
   display: flex;
-  align-items: center;
+  //align-items: center;
   margin-top: 40px;
 `;
 
@@ -166,7 +165,7 @@ const ProfileImage = styled.img`
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  //justify-content: center;
 `;
 
 const ProfileName = styled.h2`
@@ -179,37 +178,6 @@ const ProfileDescription = styled.p`
   font-size: 16px;
   color: gray;
   margin-bottom: 20px;
-`;
-
-const PostGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 40px;
-`;
-
-
-
-const UploadButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 200px;
-  border: 1px dashed gray;
-  border-radius: 5px;
-`;
-
-const UploadIcon = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: lightgray;
-  border-radius: 50%;
-  margin-right: 10px;
-`;
-
-const UploadText = styled.div`
-  font-size: 16px;
 `;
 
 const FollowInfo = styled.div`

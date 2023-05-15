@@ -11,7 +11,7 @@ import java.util.List;
 public interface PostsService {
 
     //포스팅
-    public boolean posting(PostingDto dto);
+    public String posting(PostingDto dto);
 
     //정보 가져오기
     public List<Posts> getPostsByUserId(String userId);

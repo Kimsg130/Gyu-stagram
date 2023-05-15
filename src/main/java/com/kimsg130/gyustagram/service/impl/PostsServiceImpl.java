@@ -17,14 +17,14 @@ public class PostsServiceImpl implements PostsService {
 
     private final PostsRepository postsRepository;
     @Override
-    public boolean posting(PostingDto dto) {
+    public String posting(PostingDto dto) {
         Posts post = new Posts(dto);
         try {
             postsRepository.save(post);
         }catch (Exception e) {
-            return false; // 실패
+            return "Failed"; // 실패
         }
-        return true; // 성공
+        return "Success"; // 성공
     }
 
     @Override
