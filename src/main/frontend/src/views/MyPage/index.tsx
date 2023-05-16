@@ -7,17 +7,25 @@ import axios from "axios";
 import './style.css';
 import Navigation from "../Navigation";
 import Modal from "../Modal";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 // type PostImageProps = {
 //     src: string;
 // };
 
+interface Posts {
+    postId : number;
+    explains : string;
+    images : string;
+    postDate : Date;
+    userId : string;
+}
+
 const MyPage = () => {
-    const { userid } = useParams();
+    const { userId } = useParams();
     const rogin_UserId : string | null = useRecoilValue(tokenState).userId;
 
-    const finalUserId = userid || rogin_UserId;
+    const finalUserId = userId || rogin_UserId;
 
     const [user_comment, setUser_comment ] = useState('');
     const [user_image, setUser_image ] = useState('');
@@ -42,14 +50,6 @@ const MyPage = () => {
     const handleClose = () => {
         setOpen(false);
     };
-
-    interface Posts {
-        postId : number;
-        explains : string;
-        images : string;
-        postDate : Date;
-        userId : string;
-    }
 
     const user = {
         u_id: finalUserId,
@@ -94,25 +94,26 @@ const MyPage = () => {
             })
             .catch(error => console.log(error))
 
-    }, []);
+    }, [userId]);
 
 
     return (
         <div>
             <Container>
-                <ProfileWrapper className={"profileWrapper"}>
+                <ProfileWrapper className={"profileWrapper"} >
                     <ProfileImage src={user.profileImageUrl} />
                     <ProfileInfo>
                         <ProfileName>{user.u_id}</ProfileName>
-                        <ProfileDescription>{user.name}<br/>{user.description}</ProfileDescription>
                         <FollowInfo>
                             <FollowLabel>게시글</FollowLabel>
                             <FollowCount>{user.postingCount}&nbsp;&nbsp;</FollowCount>
-                            <FollowLabel>팔로워</FollowLabel>
-                            <FollowCount>{user.followerCount}&nbsp;&nbsp;</FollowCount>
-                            <FollowLabel>팔로잉</FollowLabel>
-                            <FollowCount>{user.followingCount}</FollowCount>
+                            <FollowLabel className={"hoverable"}>팔로워</FollowLabel>
+                            <FollowCount className={"hoverable"}>{user.followerCount}&nbsp;&nbsp;</FollowCount>
+                            <FollowLabel className={"hoverable"}>팔로잉</FollowLabel>
+                            <FollowCount className={"hoverable"}>{user.followingCount}</FollowCount>
                         </FollowInfo>
+                        <div className={"profile-name"}>{user.name}</div>
+                        <ProfileDescription>{user.description}</ProfileDescription>
                     </ProfileInfo>
                 </ProfileWrapper>
                 <br />
@@ -156,10 +157,14 @@ const ProfileWrapper = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  margin-right: 20px;
+  border: 5px solid transparent;
+  background-image: linear-gradient(#ff0000, #d2bb00), linear-gradient(to right, rgb(255, 228, 12), rgba(227, 42, 42, 0.67), #65d3ffaa);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin-right: 70px;
 `;
 
 const ProfileInfo = styled.div`

@@ -3,7 +3,18 @@
 }
 
 .post {
+    /*width: 309px;*/
+    /*height: 309px;*/
+}
 
+.profileWrapper {
+    width: 700px;
+}
+
+.profile-name {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: -15px;
 }
 
 .grid {

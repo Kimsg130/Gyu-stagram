@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LikesRepository extends JpaRepository<Likes, Integer> {
-//    List<Likes> findAllByPostOrCommentIdAndKindOrderByLikeDateDesc(int postOrCommentId, String kind);
+    List<Likes> findAllBySendingLikesIdAndKindOrderByLikeDateDesc(int sendingLikesId, String kind);
 }

@@ -34,6 +34,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/").permitAll()
+                .requestMatchers("/commenting").permitAll()
+                .requestMatchers("/get_likes").permitAll()
                 .requestMatchers("/get_comments").permitAll()
                 .requestMatchers("/profile").permitAll()
                 .requestMatchers("/post").permitAll()

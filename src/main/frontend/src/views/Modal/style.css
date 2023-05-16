@@ -5,16 +5,30 @@
     width: 100%;
     height: 100%;
     z-index: 2;
-    background-color: rgba(0, 0, 0, 0.45);
+    /*background-color: rgba(0, 0, 0, 0.45);*/
 }
 
 .modal {
     background-color: #fff;
+    position: relative;
     width: 884px;
     height: 600px;
     margin: auto;
     margin-top: 70px;
     display: flex;
+    border-radius: 5px;
+    z-index: 6;
+}
+
+.close-area {
+    position: absolute;
+    top: 0px;
+    /*margin-left: -0.6%;*/
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    background-color: rgba(0, 0, 0, 0.45);
+
 }
 
 .close-modal {
@@ -72,4 +86,44 @@
     font-size: 13px;
     color: rgb(150, 150, 150);
     font-weight: 600;
+}
+
+.comment-details-likes {
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.detail-actions {
+    display: flex;
+    margin-left: -3px;
+}
+
+.detail-actions svg {
+    font-size: 28px;
+    margin: 0px 10px;
+}
+
+.detail-actions svg:first-child {
+    margin-left: 0px;
+}
+
+.detail-actions svg:last-child {
+    margin-right: 0px;
+}
+
+.modal-write-section {
+    display: flex;
+    flex: 1;
+    color: rgb(150, 150, 150);
+    align-items: center;
+}
+
+.modal-write-section a {
+    text-decoration: none;
+    color: rgb(49, 23, 138);
+    margin-right: 5px;
+}
+
+.modal-write-section a:visited {
+    color: rgb(49, 23, 138);
 }

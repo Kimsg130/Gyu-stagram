@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface LikesService {
 
-//    List<Likes> getLikesByPostOrCommentIdAndKind(int postOrCommentId, String kind);
+    public List<Likes> getLikesBySendingLikesIdAndKind(int sendingLikesId, String kind);
 }
 
 

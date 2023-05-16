@@ -9,8 +9,8 @@ import java.util.List;
 public interface FollowService {
 
     //팔로워&팔로잉 가져오기  팔로워 : 당하는, 팔로잉 : 하는
-    List<String> getFollwerByFollwing(String following);
-    List<String> getFollowingByFollwer(String follower);
+    public List<String> getFollwerByFollwing(String following);
+    public List<String> getFollowingByFollwer(String follower);
 }
 
 

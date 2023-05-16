@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 
 import "./style.css";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 interface Comment {
     commentId : number;
@@ -13,10 +14,13 @@ interface Comment {
 
 interface Props {
     comment: Comment;
+    handleClose: () => void;
+
 }
 
-export default function Comment({ comment }: Props) {
+export default function Comment({ comment, handleClose }: Props) {
     const [user_image, setUser_Image] = useState('');
+    const movePage = useNavigate();
 
     useEffect( () => {
         axios.get('http://localhost:8082/profile', {
@@ -35,7 +39,10 @@ export default function Comment({ comment }: Props) {
             <img className="profile-image hoverable" src={user_image} />
             <div>
                 <div>
-                    <span className="username hoverable">{comment.userId}</span>
+                    <span className="username hoverable" onClick={() => {
+                        movePage('/'+comment.userId);
+                        handleClose();
+                    }}>{comment.userId}</span>
                     <span>{comment.comment}</span>
                 </div>
                 <div className="comment-details">

@@ -6,6 +6,10 @@
     text-align: center;
 }
 
+.button:hover {
+    color: #0957d7;
+}
+
 .primary-button {
     background-color: #0095f6;
     color: white;

@@ -1,11 +1,19 @@
 import React, {useEffect, useState} from 'react';
+
 import './style.css';
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import Button from "../Button";
+import Comment from "./Comment";
+
 import CloseIcon from '@mui/icons-material/Close';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import axios from "axios";
-import Button from "../Button";
-import {useNavigate} from "react-router-dom";
-import Comment from "./Comment";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import InputBase from '@mui/material/InputBase';
+import {useRecoilValue} from "recoil";
+import {tokenState} from "../../recoil/tokenState";
 
 interface Props {
     open: boolean;
@@ -28,13 +36,24 @@ interface Comment {
     commentDate : Date;
 }
 
+interface Likes {
+    likeId : number;
+    userId : string;
+    sendingLikesId : number;
+    kind : string;
+    likeDate : Date;
+}
+
 const Modal = (props:Props) => {
     const { open, handleClose, post } = props;
     const [user_image, setUser_Image] = useState('');
     const [comments, setComments] = useState<Comment[]>([]);
+    const [likes, setLikes] = useState<Likes[]>([]);
+    const [sendComment, setSendingComment] = useState('');
+    const [reComment, setReComment] = useState(false);
+    const rogin_UserId : string | null = useRecoilValue(tokenState).userId;
     const movePage = useNavigate();
 
-    console.log(post);
 
     useEffect(() => { //특정한 state가 바뀌면 실행됨, deps를 비워두면 맨처음 한번만 실행됨
         axios.get('http://localhost:8082/profile', {
@@ -49,6 +68,21 @@ const Modal = (props:Props) => {
             })
             .catch(error => console.log(error));
 
+        axios.get('http://localhost:8082/get_likes', {
+            params : {
+                sendingLikesId: post.postId,
+                kind: "post",
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                setLikes(response.data);
+            })
+            .catch(error => console.log(error));
+
+    }, []);
+
+    useEffect(() => {
         axios.get('http://localhost:8082/get_comments', {
             params : {
                 postId: post.postId,
@@ -60,12 +94,33 @@ const Modal = (props:Props) => {
             })
             .catch(error => console.log(error));
 
-    }, []);
+    }, [reComment]);
+
+
+    const sendingComment = (userId:string|null, postId:number, comment:string) => {
+        axios
+            .post('http://localhost:8082/commenting', {
+                userId,
+                postId,
+                comment
+            })
+            .then((response) => {
+                console.log(response.data);
+                if(reComment == false) { setReComment(true); }
+                else { setReComment(false); }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
 
     return (
         <div className={"modal-container"}>
-            <div onClick={() => handleClose()} className={"close-modal hoverable"}>
-                <CloseIcon fontSize={"large"} />
+            <div className={"close-area"} onClick={() => handleClose()}>
+                <div className={"close-modal hoverable"}>
+                    <CloseIcon fontSize={"large"} />
+                </div>
             </div>
             <div className={"modal"}>
                 <img src={post.images} className={"modal-image"} />
@@ -85,7 +140,10 @@ const Modal = (props:Props) => {
                             <img className="profile-image hoverable" src={user_image} />
                             <div>
                                 <div>
-                                    <span className="username hoverable">{post?.userId}</span>
+                                    <span className="username hoverable" onClick={() => {
+                                        movePage('/'+post.userId);
+                                        handleClose();
+                                    }}>{post?.userId}</span>
                                     <span>{post?.explains}</span>
                                     <div className="comment-details">
                                         {post?.postDate.toString()}
@@ -94,11 +152,33 @@ const Modal = (props:Props) => {
                             </div>
                         </div>
                         {comments.map((comment, index) => (
-                            <Comment comment={comment} />
+                            <Comment comment={comment} handleClose={handleClose} />
                         ))}
                     </div>
-                    <div>Details section</div>
-                    <div>Write section</div>
+                    <div className="modal-details-section modal-section">
+                        <div className="detail-actions">
+                            <FavoriteBorderIcon className="hoverable" />
+                            <InsertCommentOutlinedIcon className="hoverable" />
+                            <div className="spacer" />
+                            <ShareOutlinedIcon className="hoverable" />
+                        </div>
+                        <div className={"comment-details-likes"}>{likes[0]?.userId}님 외의 {likes.length} 분들이 좋아합니다.</div>
+                        <div className="comment-details">{post.postDate.toString()}</div>
+                    </div>
+                    <div className="modal-write-section modal-section">
+                        <div className={"modal-write-input"}>
+                            <InputBase
+                                sx={{ ml: 1, flex: 1, width: 250 }}
+                                placeholder="댓글 달기..."
+                                inputProps={{ 'aria-label': 'search google maps' }}
+                                onChange={(e) => { setSendingComment(e.target.value) }}
+                            />
+                        </div>
+                        <div className="spacer" />
+                        <div className={"modal-write-button"}>
+                            <Button label={"게시"} sendingComment={() => sendingComment(rogin_UserId, post.postId, sendComment)}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

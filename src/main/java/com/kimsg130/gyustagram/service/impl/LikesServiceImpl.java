@@ -16,8 +16,8 @@ public class LikesServiceImpl implements LikesService {
 
     private final LikesRepository likesRepository;
 
-//    @Override
-//    public List<Likes> getLikesByPostOrCommentIdAndKind(int postOrCommentId, String kind) {
-//        return likesRepository.findAllByPostOrCommentIdAndKindOrderByLikeDateDesc(postOrCommentId, kind);
-//    }
+    @Override
+    public List<Likes> getLikesBySendingLikesIdAndKind(int sendingLikesId, String kind) {
+        return likesRepository.findAllBySendingLikesIdAndKindOrderByLikeDateDesc(sendingLikesId, kind);
+    }
 }

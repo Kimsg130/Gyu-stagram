@@ -1,5 +1,6 @@
 package com.kimsg130.gyustagram.model;
 
+import com.kimsg130.gyustagram.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -39,5 +40,11 @@ public class Comment {
     @PrePersist
     protected void prePersist() {
         if (this.commentDate == null) commentDate = LocalDateTime.now();
+    }
+
+    public Comment(CommentRequestDto dto) {
+        this.userId = dto.getUserId();
+        this.postId = dto.getPostId();
+        this.comment = dto.getComment();
     }
 }

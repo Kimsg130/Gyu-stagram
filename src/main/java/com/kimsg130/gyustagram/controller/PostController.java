@@ -1,13 +1,12 @@
 package com.kimsg130.gyustagram.controller;
 
+import com.kimsg130.gyustagram.dto.CommentRequestDto;
 import com.kimsg130.gyustagram.dto.PostingDto;
 import com.kimsg130.gyustagram.dto.UserInfoDto;
 import com.kimsg130.gyustagram.model.Comment;
+import com.kimsg130.gyustagram.model.Likes;
 import com.kimsg130.gyustagram.model.Posts;
-import com.kimsg130.gyustagram.service.CommentService;
-import com.kimsg130.gyustagram.service.FollowService;
-import com.kimsg130.gyustagram.service.PostsService;
-import com.kimsg130.gyustagram.service.UserService;
+import com.kimsg130.gyustagram.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +25,8 @@ public class PostController {
     FollowService followService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    LikesService likesService;
 
     @GetMapping("profile")
     public UserInfoDto getUserInfo(@RequestParam String userId) {
@@ -48,5 +49,15 @@ public class PostController {
     @GetMapping("/get_comments")
     public List<Comment> getComments(@RequestParam int postId) {
         return commentService.getCommentByPostId(postId);
+    }
+
+    @GetMapping("/get_likes")
+    public List<Likes> getLikes(@RequestParam int sendingLikesId, String kind) {
+        return likesService.getLikesBySendingLikesIdAndKind(sendingLikesId, kind);
+    }
+
+    @PostMapping("/commenting")
+    public String commenting(@RequestBody CommentRequestDto dto) {
+        return commentService.sendingComment(dto);
     }
 }

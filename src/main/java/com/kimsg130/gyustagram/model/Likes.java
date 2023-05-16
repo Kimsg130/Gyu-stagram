@@ -26,8 +26,8 @@ public class Likes {
     @Column(nullable = false)
     private String userId;
 
-    @Column(nullable = false) // or가 들어가서 레포지토리에서 쿼리에러가 남 TODO : 칼럼명 바꾸기
-    private int postOrCommentId;
+    @Column(nullable = false) // or가 들어가서 레포지토리에서 쿼리에러가 남 DONE : 칼럼명 바꾸기
+    private int sendingLikesId;
 
     @Column(nullable = false)
     private String kind;
