@@ -1,3 +1,10 @@
 .hoverable:hover {
   cursor: pointer;
 }
+.hoverable-text:hover {
+  color: #646464;
+}
+
+.App {
+
+}

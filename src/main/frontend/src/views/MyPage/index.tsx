@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {ImageList, ImageListItem} from "@mui/material";
+import GridOnIcon from '@mui/icons-material/GridOn';
 import {useRecoilValue} from "recoil";
 import {tokenState} from "../../recoil/tokenState";
 import axios from "axios";
@@ -98,7 +99,7 @@ const MyPage = () => {
 
 
     return (
-        <div>
+        <div className={"profile-page"}>
             <Container>
                 <ProfileWrapper className={"profileWrapper"} >
                     <ProfileImage src={user.profileImageUrl} />
@@ -116,9 +117,9 @@ const MyPage = () => {
                         <ProfileDescription>{user.description}</ProfileDescription>
                     </ProfileInfo>
                 </ProfileWrapper>
-                <br />
-                <hr />
-                <ImageList sx={{ width: 700, height: 500, }} cols={3} rowHeight={164} className={"grid"}>
+                <div className={"post-label"}><GridOnIcon /><div>포스트</div></div>
+                <ImageList cols={3} className={"grid"}>
+                    {/*sx={{ width: 900, height: 540, }}  rowHeight={}*/}
                     {posts.map((post) => (
                         <ImageListItem key={post.postId} className={"post"} onClick={() => handleClickOpen(post)}>
                             <img
@@ -130,7 +131,7 @@ const MyPage = () => {
                         </ImageListItem>
                     ))}
                 </ImageList>
-                <Navigation userid={rogin_UserId}/>
+                {/*<Navigation userid={rogin_UserId}/>*/}
             </Container>
             {open && <Modal open={open} handleClose={handleClose} post={selectedPost}/>}
         </div>
@@ -175,14 +176,13 @@ const ProfileInfo = styled.div`
 
 const ProfileName = styled.h2`
   font-size: 24px;
-  font-weight: bold;
   margin-bottom: 10px;
 `;
 
 const ProfileDescription = styled.p`
   font-size: 16px;
   color: gray;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
 `;
 
 const FollowInfo = styled.div`

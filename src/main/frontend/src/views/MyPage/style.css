@@ -19,9 +19,28 @@
 
 .grid {
     overflow: visible;
-    margin-left: -10%;
+    /*margin-left: -10%;*/
+    width: 65vw;
+    min-width: 620px;
+    max-width: 800px;
+    align-items: center;
 }
 
 .spacer {
     flex: 1;
+}
+
+.profile-page {
+    display: flex;
+    padding-right: 20%;
+    padding-left: 80px;
+}
+
+.post-label {
+    width: 65vw;
+    align-items: center;
+    padding-top: 12px;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid rgb(220, 220, 220);
 }

@@ -51,6 +51,7 @@ const Modal = (props:Props) => {
     const [likes, setLikes] = useState<Likes[]>([]);
     const [sendComment, setSendingComment] = useState('');
     const [reComment, setReComment] = useState(false);
+    const [disable, setDisable] = useState(true);
     const rogin_UserId : string | null = useRecoilValue(tokenState).userId;
     const movePage = useNavigate();
 
@@ -96,6 +97,13 @@ const Modal = (props:Props) => {
 
     }, [reComment]);
 
+    useEffect(() => {
+        if(sendComment.trim() === '') {
+            setDisable(true);
+        }else {
+            setDisable(false);
+        }
+    }, [sendComment]);
 
     const sendingComment = (userId:string|null, postId:number, comment:string) => {
         axios
@@ -106,8 +114,9 @@ const Modal = (props:Props) => {
             })
             .then((response) => {
                 console.log(response.data);
-                if(reComment == false) { setReComment(true); }
+                if(reComment === false) { setReComment(true); }
                 else { setReComment(false); }
+                setSendingComment('');
             })
             .catch((error) => {
                 console.log(error);
@@ -162,21 +171,25 @@ const Modal = (props:Props) => {
                             <div className="spacer" />
                             <ShareOutlinedIcon className="hoverable" />
                         </div>
-                        <div className={"comment-details-likes"}>{likes[0]?.userId}님 외의 {likes.length} 분들이 좋아합니다.</div>
+                        <div className={"comment-details-likes"}>
+                            {likes[0]?.userId}님 외의 {likes.length} 분(들)이 좋아합니다.</div>
                         <div className="comment-details">{post.postDate.toString()}</div>
                     </div>
                     <div className="modal-write-section modal-section">
                         <div className={"modal-write-input"}>
                             <InputBase
                                 sx={{ ml: 1, flex: 1, width: 250 }}
+                                value={sendComment}
                                 placeholder="댓글 달기..."
-                                inputProps={{ 'aria-label': 'search google maps' }}
-                                onChange={(e) => { setSendingComment(e.target.value) }}
+                                inputProps={{ 'aria-label': 'write comment' }}
+                                onChange={(e) => {
+                                    setSendingComment(e.target.value);
+                                }}
                             />
                         </div>
                         <div className="spacer" />
                         <div className={"modal-write-button"}>
-                            <Button label={"게시"} sendingComment={() => sendingComment(rogin_UserId, post.postId, sendComment)}/>
+                            <Button label={"게시"} disable={disable} sendingComment={() => sendingComment(rogin_UserId, post.postId, sendComment)}/>
                         </div>
                     </div>
                 </div>

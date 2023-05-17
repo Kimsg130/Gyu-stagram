@@ -6,6 +6,7 @@ import LogIn from "./views/Authentication/LogIn";
 import MyPage from "./views/MyPage";
 import {useRecoilValue} from "recoil";
 import {tokenState} from "./recoil/tokenState";
+import Navigation from "./views/Navigation";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                     <Route path={"/login"} element={userId ? <Navigate to={"/"} /> : <LogIn />}></Route>
                     <Route path={"/:userId"} element={userId ? <MyPage /> : <Navigate to={"/login"} /> }></Route>
                 </Routes>
+                { userId ? (<Navigation userid={userId} />) : null }
             </BrowserRouter>
         </div>
     );

@@ -18,3 +18,10 @@
 .secondary-button {
     color: #0095f6;
 }
+
+.disable {
+    color: #67808d;
+}
+.disable:hover {
+    color: #67808d;
+}
