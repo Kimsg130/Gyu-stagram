@@ -60,4 +60,5 @@ public class PostController {
     public String commenting(@RequestBody CommentRequestDto dto) {
         return commentService.sendingComment(dto);
     }
+
 }

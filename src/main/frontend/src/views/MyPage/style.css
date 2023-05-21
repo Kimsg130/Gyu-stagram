@@ -5,6 +5,8 @@
 .post {
     /*width: 309px;*/
     /*height: 309px;*/
+    /*width: 220.35px;*/
+    /*height: 220.35px;*/
 }
 
 .profileWrapper {
@@ -32,8 +34,8 @@
 
 .profile-page {
     display: flex;
-    padding-right: 20%;
-    padding-left: 80px;
+    padding-right: 10%;
+    /*padding-left: 80px;*/
 }
 
 .post-label {
@@ -43,4 +45,10 @@
     display: flex;
     justify-content: center;
     border-top: 1px solid rgb(220, 220, 220);
+}
+
+.thumbnails {
+    width: 220.35px;
+    height: 220.35px;
+    object-fit: cover;
 }

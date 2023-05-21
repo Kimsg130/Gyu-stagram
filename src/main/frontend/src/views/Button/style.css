@@ -1,18 +1,21 @@
 .button {
     padding: 7px 8px;
-    border-radius: 3px;
+    border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
     text-align: center;
 }
 
-.button:hover {
+.secondary-button:hover {
     color: #0957d7;
 }
 
 .primary-button {
     background-color: #0095f6;
     color: white;
+}
+.primary-button:hover {
+    background-color: #0957d7;
 }
 
 .secondary-button {

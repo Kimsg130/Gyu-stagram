@@ -35,7 +35,7 @@ public class User implements UserDetails {  // user테이블 DONE : userDetails�
     public User(SignupDto dto) {
         this.userId = dto.getUserId();
         this.password = dto.getPassword();
-
+        this.roles.add("USER");
     }
 
     @Override

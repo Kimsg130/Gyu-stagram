@@ -1,13 +1,17 @@
 package com.kimsg130.gyustagram.model;
 
 import com.kimsg130.gyustagram.dto.PostingDto;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -30,8 +34,13 @@ public class Posts {
     @Column
     private String explains;
 
+
     @Column(nullable = false)
     private String images;
+
+    @Type(JsonType.class)
+    @Column(columnDefinition = "json")
+    private Map<Integer, String> images_json;
 
     @CreatedDate
     @Column(nullable = false)
@@ -46,5 +55,6 @@ public class Posts {
         this.userId = dto.getUserId();
         this.explains = dto.getExplains();
         this.images = dto.getImages();
+        this.images_json = dto.getImages_json();
     }
 }

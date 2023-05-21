@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {ImageList, ImageListItem} from "@mui/material";
 import GridOnIcon from '@mui/icons-material/GridOn';
@@ -9,6 +9,8 @@ import './style.css';
 import Navigation from "../Navigation";
 import Modal from "../Modal";
 import {useNavigate, useParams} from "react-router-dom";
+import defaultImage from "../../assets/images/default.png";
+
 
 // type PostImageProps = {
 //     src: string;
@@ -51,6 +53,11 @@ const MyPage = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.src = defaultImage;
+        e.currentTarget.srcset = defaultImage;
+    }
 
     const user = {
         u_id: finalUserId,
@@ -123,10 +130,12 @@ const MyPage = () => {
                     {posts.map((post) => (
                         <ImageListItem key={post.postId} className={"post"} onClick={() => handleClickOpen(post)}>
                             <img
-                                src={`${post.images}?w=164&h=164&fit=crop&auto=format`}
-                                srcSet={`${post.images}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                alt={post.images}
+                                className={"thumbnails"}
+                                src={post.images} //?w=164&h=164&fit=crop&auto=format
+                                srcSet={post.images} //?w=164&h=164&fit=crop&auto=format&dpr=2 2x`
+                                alt={"ggg"}
                                 loading="lazy"
+                                onError={handleImgError}
                             />
                         </ImageListItem>
                     ))}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 
 import './style.css';
 import axios from "axios";
@@ -14,6 +14,8 @@ import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import InputBase from '@mui/material/InputBase';
 import {useRecoilValue} from "recoil";
 import {tokenState} from "../../recoil/tokenState";
+
+import defaultImage from "../../assets/images/default.png";
 
 interface Props {
     open: boolean;
@@ -123,6 +125,9 @@ const Modal = (props:Props) => {
             });
     };
 
+    const handleImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.src = defaultImage;
+    }
 
     return (
         <div className={"modal-container"}>
@@ -132,10 +137,11 @@ const Modal = (props:Props) => {
                 </div>
             </div>
             <div className={"modal"}>
-                <img src={post.images} className={"modal-image"} />
+                <img src={post.images} alt={"힝"} className={"modal-image"}
+                     onError={handleImgError}/>
                 <div className={"modal-content-section"}>
                     <div className={"modal-top-section modal-section"}>
-                        <img className={"profile-image hoverable"} src={user_image}/>
+                        <img className={"profile-image hoverable"} src={user_image} onError={handleImgError}/>
                         <div className={"username hoverable"} onClick={() => {
                             movePage('/'+post.userId);
                             handleClose();
@@ -146,7 +152,7 @@ const Modal = (props:Props) => {
                     </div>
                     <div className="modal-comment-section modal-section">
                         <div className="comment-container">
-                            <img className="profile-image hoverable" src={user_image} />
+                            <img className="profile-image hoverable" src={user_image} onError={handleImgError}/>
                             <div>
                                 <div>
                                     <span className="username hoverable" onClick={() => {
@@ -189,7 +195,7 @@ const Modal = (props:Props) => {
                         </div>
                         <div className="spacer" />
                         <div className={"modal-write-button"}>
-                            <Button label={"게시"} disable={disable} sendingComment={() => sendingComment(rogin_UserId, post.postId, sendComment)}/>
+                            <Button label={"게시"} disable={disable} clickFunction={() => sendingComment(rogin_UserId, post.postId, sendComment)}/>
                         </div>
                     </div>
                 </div>

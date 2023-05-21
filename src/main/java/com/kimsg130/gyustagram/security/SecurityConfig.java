@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers("/profile").permitAll()
                 .requestMatchers("/post").permitAll()
                 .requestMatchers("/posting").permitAll()
+                .requestMatchers("/api/upload/image").permitAll()
                 .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/api/auth/signup").permitAll()
                 .requestMatchers("/api/auth/test").hasRole("USER")
