@@ -80,7 +80,7 @@ const Posting = ( props: Props ) => {
     }
 
     return (
-        <div className={"modal-container"}>
+        <div className={"modal-container posting"}>
             <div className={"close-area"} onClick={() => props.handleClose()}>
                 <div className={"close-modal hoverable"}>
                     <CloseIcon fontSize={"large"} />

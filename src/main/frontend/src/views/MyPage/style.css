@@ -2,13 +2,6 @@
     filter: brightness(60%);
 }
 
-.post {
-    /*width: 309px;*/
-    /*height: 309px;*/
-    /*width: 220.35px;*/
-    /*height: 220.35px;*/
-}
-
 .profileWrapper {
     width: 700px;
 }
@@ -34,12 +27,13 @@
 
 .profile-page {
     display: flex;
-    padding-right: 10%;
-    /*padding-left: 80px;*/
+    padding-right: 11%;
 }
 
 .post-label {
-    width: 65vw;
+    width: 62vw;
+    max-width: 803px;
+    min-width: 615px;
     align-items: center;
     padding-top: 12px;
     display: flex;
@@ -48,7 +42,8 @@
 }
 
 .thumbnails {
-    width: 220.35px;
-    height: 220.35px;
+    height: 65vw !important;
+    max-height: 250px;
+    min-height: 204px;
     object-fit: cover;
 }

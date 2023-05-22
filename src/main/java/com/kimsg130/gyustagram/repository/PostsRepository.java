@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface PostsRepository extends JpaRepository<Posts, Integer> {
     List<Posts> findAllByUserIdOrderByPostDateDesc(String userId);
+    List<Posts> findAllByUserIdInOrderByPostDateDesc(List<String> userIds);
     Posts findByPostId(int postId);
 }

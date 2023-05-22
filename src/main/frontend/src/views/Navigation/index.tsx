@@ -16,13 +16,14 @@ const Navigation = ({userid}: { userid : string | null}) => {
     };
     const handleClose = () => {
         setOpen(false);
+
     };
 
     return (
         <div>
             <Wrapper>
                 <Icon onClick={() => movePage('/')}><HomeIcon fontSize="large" className={"icon-image"}/></Icon>
-                <Icon onClick={() => movePage('/'+userid)}><AccountCircleIcon fontSize="large" className={"icon-image"}/></Icon>
+                <Icon onClick={() => {movePage('/'+userid)}}><AccountCircleIcon fontSize="large" className={"icon-image"}/></Icon>
                 <Icon onClick={() => handleClickOpen()}><AddBoxOutlinedIcon fontSize="large" className={"icon-image"}/></Icon>
             </Wrapper>
             {open && <Posting handleClose={handleClose} userid={userid}/>}
@@ -39,7 +40,7 @@ const Wrapper = styled.div`
   left: 0;
   width: 63px;
   padding: 15px;
-  //background-color: #f5f5f5;
+  background-color: #ffffff;
   border-right: 1px solid rgb(220, 220, 220);
 `;
 

@@ -18,6 +18,8 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+**/serviceAccountKey.json
+**/application.properties
 
 ### IntelliJ IDEA ###
 .idea
@@ -27,6 +29,8 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+**/serviceAccountKey.json
+**/application.properties
 
 ### NetBeans ###
 /nbproject/private/

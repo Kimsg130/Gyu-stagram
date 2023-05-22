@@ -34,6 +34,11 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
+    public List<Posts> getPostsByUserId(List<String> userIds) {
+        return postsRepository.findAllByUserIdInOrderByPostDateDesc(userIds);
+    }
+
+    @Override
     public Posts getPostByPostId(int postId) {
         // 포스트아이디에 맞는 포스트 반환
         return postsRepository.findByPostId(postId);

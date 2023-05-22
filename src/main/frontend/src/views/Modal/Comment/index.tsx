@@ -22,6 +22,8 @@ export default function Comment({ comment, handleClose }: Props) {
     const [user_image, setUser_Image] = useState('');
     const movePage = useNavigate();
 
+
+
     useEffect( () => {
         axios.get('http://localhost:8082/profile', {
             params : {

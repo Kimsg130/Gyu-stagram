@@ -15,6 +15,7 @@ public interface PostsService {
 
     //정보 가져오기
     public List<Posts> getPostsByUserId(String userId);
+    public List<Posts> getPostsByUserId(List<String> userIds);
     public Posts getPostByPostId(int postId);
 
 }

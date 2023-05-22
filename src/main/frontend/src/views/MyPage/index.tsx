@@ -69,19 +69,6 @@ const MyPage = () => {
         followingCount: user_following,
     };
 
-    // const postImageUrls : string[] = [
-    //     'https://picsum.photos/id/234/200/200',
-    //     'https://picsum.photos/id/235/200/200',
-    //     'https://picsum.photos/id/236/200/200',
-    //     'https://picsum.photos/id/237/200/200',
-    //     'https://picsum.photos/id/238/200/200',
-    //     'https://picsum.photos/id/239/200/200',
-    //     'https://picsum.photos/id/240/200/200',
-    //     'https://picsum.photos/id/241/200/200',
-    //     'https://picsum.photos/id/242/200/200',
-    //     'https://picsum.photos/id/242/200/200',
-    //     'https://picsum.photos/id/242/200/200',
-    // ];
 
     useEffect(() => { //특정한 state가 바뀌면 실행됨, deps를 비워두면 맨처음 한번만 실행됨
         axios.get('http://localhost:8082/profile', {
@@ -124,11 +111,11 @@ const MyPage = () => {
                         <ProfileDescription>{user.description}</ProfileDescription>
                     </ProfileInfo>
                 </ProfileWrapper>
-                <div className={"post-label"}><GridOnIcon /><div>포스트</div></div>
-                <ImageList cols={3} className={"grid"}>
+                <div className={"post-label hoverable"}><GridOnIcon /><div>포스트</div></div>
+                <ImageList cols={3} className={"grid"} >
                     {/*sx={{ width: 900, height: 540, }}  rowHeight={}*/}
                     {posts.map((post) => (
-                        <ImageListItem key={post.postId} className={"post"} onClick={() => handleClickOpen(post)}>
+                        <ImageListItem key={post.postId} sx={{ height: '100%'}}  className={"post"} onClick={() => handleClickOpen(post)}>
                             <img
                                 className={"thumbnails"}
                                 src={post.images} //?w=164&h=164&fit=crop&auto=format
@@ -140,7 +127,6 @@ const MyPage = () => {
                         </ImageListItem>
                     ))}
                 </ImageList>
-                {/*<Navigation userid={rogin_UserId}/>*/}
             </Container>
             {open && <Modal open={open} handleClose={handleClose} post={selectedPost}/>}
         </div>
@@ -223,3 +209,16 @@ export default MyPage;
 //                             />
 //                         </ImageListItem>
 //                     ))}
+// const postImageUrls : string[] = [
+//     'https://picsum.photos/id/234/200/200',
+//     'https://picsum.photos/id/235/200/200',
+//     'https://picsum.photos/id/236/200/200',
+//     'https://picsum.photos/id/237/200/200',
+//     'https://picsum.photos/id/238/200/200',
+//     'https://picsum.photos/id/239/200/200',
+//     'https://picsum.photos/id/240/200/200',
+//     'https://picsum.photos/id/241/200/200',
+//     'https://picsum.photos/id/242/200/200',
+//     'https://picsum.photos/id/242/200/200',
+//     'https://picsum.photos/id/242/200/200',
+// ];

@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .requestMatchers("/get_comments").permitAll()
                 .requestMatchers("/profile").permitAll()
                 .requestMatchers("/post").permitAll()
+                .requestMatchers("/mainPage").permitAll()
                 .requestMatchers("/posting").permitAll()
                 .requestMatchers("/api/upload/image").permitAll()
                 .requestMatchers("/api/auth/login").permitAll()

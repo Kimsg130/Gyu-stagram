@@ -26,7 +26,7 @@ public class FollowServiceImpl implements FollowService {
         List<Follow> follows = followRepository.findAllByFollowerOrderByFollowDateDesc(following);
         List<String> followers = new ArrayList<>();
 
-        for (Follow f : follows) { followers.add(f.getFollower()); }
+        for (Follow f : follows) { followers.add(f.getFollowing()); }
         return followers;
     }
 
@@ -35,7 +35,7 @@ public class FollowServiceImpl implements FollowService {
         List<Follow> follows = followRepository.findAllByFollowingOrderByFollowDateDesc(follower);
         List<String> followings = new ArrayList<>();
 
-        for (Follow f : follows) { followings.add(f.getFollowing()); }
+        for (Follow f : follows) { followings.add(f.getFollower()); }
         return followings;
     }
 }
