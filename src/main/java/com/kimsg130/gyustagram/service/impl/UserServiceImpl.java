@@ -6,15 +6,20 @@ import com.kimsg130.gyustagram.model.User;
 import com.kimsg130.gyustagram.model.User_Details;
 import com.kimsg130.gyustagram.repository.UserRepository;
 import com.kimsg130.gyustagram.repository.User_DetailsRepository;
+import com.kimsg130.gyustagram.repository.mapping.SearchUserMapping;
 import com.kimsg130.gyustagram.security.JwtTokenProvider;
 import com.kimsg130.gyustagram.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -59,6 +64,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User_Details getUserDetails(String userId) {
         return user_detailsRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<SearchUserMapping> getSearchUserIds(String userId) {
+        String pattern = "%"+ String.join("%", userId.split("")) + "%";
+        Pageable pageable = PageRequest.of(0, 10);
+        List<SearchUserMapping> optionalUserIds = user_detailsRepository.findAllByUserIdLike(pattern, pageable);
+        //Optional<SearchUserMapping> optionalUserIds = user_detailsRepository.findAllByUserIdLike(pattern, pageable);
+        //optionalUserIds.map(Collections::singletonList).orElse(Collections.emptyList());
+        return optionalUserIds;
     }
 
     @Override

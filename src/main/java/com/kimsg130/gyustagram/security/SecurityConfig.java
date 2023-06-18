@@ -34,6 +34,11 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/").permitAll()
+                .requestMatchers("/deletepost").permitAll()
+                .requestMatchers("/dofollow").permitAll()
+                .requestMatchers("/dolike").permitAll()
+                .requestMatchers("/getfollows").permitAll()
+                .requestMatchers("/deletefollow").permitAll()
                 .requestMatchers("/commenting").permitAll()
                 .requestMatchers("/get_likes").permitAll()
                 .requestMatchers("/get_comments").permitAll()
@@ -42,6 +47,7 @@ public class SecurityConfig {
                 .requestMatchers("/mainPage").permitAll()
                 .requestMatchers("/posting").permitAll()
                 .requestMatchers("/api/upload/image").permitAll()
+                .requestMatchers("/searchUser").permitAll()
                 .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/api/auth/signup").permitAll()
                 .requestMatchers("/api/auth/test").hasRole("USER")
@@ -56,7 +62,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:8082", "http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

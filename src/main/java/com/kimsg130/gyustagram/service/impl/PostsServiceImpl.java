@@ -43,4 +43,9 @@ public class PostsServiceImpl implements PostsService {
         // 포스트아이디에 맞는 포스트 반환
         return postsRepository.findByPostId(postId);
     }
+
+    @Override
+    public void deletePost(int postId) {
+        postsRepository.deleteById(postId);
+    }
 }

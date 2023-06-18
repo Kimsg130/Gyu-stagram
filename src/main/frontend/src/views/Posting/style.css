@@ -82,7 +82,7 @@
     border-radius: 50%;
 }
 .username {
-    font-weight: normal;
+    /*font-weight: normal;*/
 }
 .posting-content-textArea {
     width: 97%;

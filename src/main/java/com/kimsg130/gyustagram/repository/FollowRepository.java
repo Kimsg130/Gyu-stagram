@@ -8,4 +8,6 @@ import java.util.List;
 public interface FollowRepository extends JpaRepository<Follow, Integer> {
     List<Follow> findAllByFollowingOrderByFollowDateDesc(String following);
     List<Follow> findAllByFollowerOrderByFollowDateDesc(String follower);
+
+//    void deleteByPostId(String userId);
 }

@@ -19,6 +19,7 @@ interface Props {
 }
 
 export default function Comment({ comment, handleClose }: Props) {
+    //TODO: 댓글 삭제 기능
     const [user_image, setUser_Image] = useState('');
     const movePage = useNavigate();
 

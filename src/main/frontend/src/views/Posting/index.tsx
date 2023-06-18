@@ -9,6 +9,7 @@ import {TextField} from "@mui/material";
 import axios from "axios";
 import InputBase from "@mui/material/InputBase";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import {useNavigate} from "react-router-dom";
 
 interface Props{
     handleClose: () => void;
@@ -16,11 +17,12 @@ interface Props{
 }
 
 const Posting = ( props: Props ) => {
-
+    //TODO: 줄바꿈 텍스트, 포스팅하면 리랜더링, 드래그앤드랍
     const inputFile : React.MutableRefObject<HTMLInputElement | null> = useRef<HTMLInputElement | null>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [user_Image, setUser_Image] = useState('');
     const [describe, setDescribe] = useState('');
+    const movePage = useNavigate();
     const openFileDialog = () => {
         inputFile.current!.click();
     };
@@ -72,6 +74,8 @@ const Posting = ( props: Props ) => {
                 "images": imgPath
             }).then((response) => {
                 console.log('포스팅 성공: ', response.data);
+                // movePage("/");
+
                 props.handleClose();
             }).catch((error) => {
                 console.error('포스팅 실패:', error);

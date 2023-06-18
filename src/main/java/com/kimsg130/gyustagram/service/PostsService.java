@@ -18,6 +18,8 @@ public interface PostsService {
     public List<Posts> getPostsByUserId(List<String> userIds);
     public Posts getPostByPostId(int postId);
 
+    public void deletePost(int postId);
+
 }
 
 

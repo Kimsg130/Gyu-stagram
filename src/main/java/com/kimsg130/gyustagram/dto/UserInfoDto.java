@@ -13,15 +13,15 @@ public class UserInfoDto {
     private String comment;
     private String image;
     private List<Posts> posts;
-    private int follower;
-    private int following;
+    private List<String> follower;
+    private List<String> following;
 
     public UserInfoDto(User_Details user_details, List<Posts> posts, List<String> follower, List<String> following) {
         this.name = user_details.getName();
         this.comment = user_details.getComment();
         this.image = user_details.getImage();
         this.posts = posts;
-        this.follower = follower.size();
-        this.following = following.size();
+        this.follower = follower;
+        this.following = following;
     }
 }

@@ -16,6 +16,7 @@ import {useRecoilValue} from "recoil";
 import {tokenState} from "../../recoil/tokenState";
 
 import defaultImage from "../../assets/images/default.png";
+import DeletePost from "./DeletePost";
 
 interface Props {
     open: boolean;
@@ -47,11 +48,14 @@ interface Likes {
 }
 
 const Modal = (props:Props) => {
+    //TODO: 좋아요 
     const { open, handleClose, post } = props;
     const [user_image, setUser_Image] = useState('');
     const [comments, setComments] = useState<Comment[]>([]);
     const [likes, setLikes] = useState<Likes[]>([]);
+    const [i_like, setI_like] = useState(false);
     const [sendComment, setSendingComment] = useState('');
+    const [d_modal, setD_Modal] = useState(false);
     const [reComment, setReComment] = useState(false);
     const [disable, setDisable] = useState(true);
     const rogin_UserId : string | null = useRecoilValue(tokenState).userId;
@@ -59,6 +63,7 @@ const Modal = (props:Props) => {
 
 
     useEffect(() => { //특정한 state가 바뀌면 실행됨, deps를 비워두면 맨처음 한번만 실행됨
+        console.log(post.postId);
         axios.get('http://localhost:8082/profile', {
             params : {
                 userId: post.userId,
@@ -83,7 +88,7 @@ const Modal = (props:Props) => {
             })
             .catch(error => console.log(error));
 
-    }, []);
+    }, [i_like]);
 
     useEffect(() => {
         axios.get('http://localhost:8082/get_comments', {
@@ -129,8 +134,32 @@ const Modal = (props:Props) => {
         e.currentTarget.src = defaultImage;
     }
 
+    const heartStyle = {
+        color: i_like ? 'red' : 'black',
+    };
+
+    const doLike = (userId:string|null, sendingLikesId:number, kind:string) => {
+        if (userId == null) {
+            return;
+        }
+
+        axios
+            .post('http://localhost:8082/dolike', {
+                userId,
+                sendingLikesId,
+                kind
+            })
+            .then((response) => {
+                setI_like(!i_like);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     return (
         <div className={"modal-container"}>
+            {d_modal && <DeletePost postId={post.postId} handleClose={()=>{setD_Modal(false)}} />}
             <div className={"close-area"} onClick={() => handleClose()}>
                 <div className={"close-modal hoverable"}>
                     <CloseIcon fontSize={"large"} />
@@ -146,9 +175,12 @@ const Modal = (props:Props) => {
                             movePage('/'+post.userId);
                             handleClose();
                         }}>{post.userId}</div>
-                        <Button label={"Follow"} />
                         <div className={"spacer"}></div>
-                        <MoreHorizIcon className={"hoverable"} />
+                        <MoreHorizIcon className={"hoverable"} onClick={()=>{
+                            if (rogin_UserId === post.userId) {
+                                setD_Modal(true);
+                            }
+                        }}/>
                     </div>
                     <div className="modal-comment-section modal-section">
                         <div className="comment-container">
@@ -172,7 +204,7 @@ const Modal = (props:Props) => {
                     </div>
                     <div className="modal-details-section modal-section">
                         <div className="detail-actions">
-                            <FavoriteBorderIcon className="hoverable" />
+                            <FavoriteBorderIcon className="hoverable" style={heartStyle} onClick={()=>{doLike(rogin_UserId, post.postId, "post")}}/>
                             <InsertCommentOutlinedIcon className="hoverable" />
                             <div className="spacer" />
                             <ShareOutlinedIcon className="hoverable" />
@@ -200,6 +232,7 @@ const Modal = (props:Props) => {
                     </div>
                 </div>
             </div>
+
         </div>
     );
 }

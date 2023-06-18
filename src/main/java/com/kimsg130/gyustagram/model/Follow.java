@@ -1,5 +1,6 @@
 package com.kimsg130.gyustagram.model;
 
+import com.kimsg130.gyustagram.dto.DoFollowingDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -35,6 +36,11 @@ public class Follow {
     @PrePersist
     protected void prePersist() {
         if (this.followDate == null) followDate = LocalDateTime.now();
+    }
+
+    public Follow(DoFollowingDto dto) {
+        this.follower = dto.getFollower();
+        this.following = dto.getFollowing();
     }
 
 }

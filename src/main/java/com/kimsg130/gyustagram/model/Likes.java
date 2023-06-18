@@ -1,5 +1,6 @@
 package com.kimsg130.gyustagram.model;
 
+import com.kimsg130.gyustagram.dto.DoLikeDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -39,5 +40,11 @@ public class Likes {
     @PrePersist
     protected void prePersist() {
         if (this.likeDate == null) likeDate = LocalDateTime.now();
+    }
+
+    public Likes(DoLikeDto dto) {
+        this.userId = dto.getUserId();
+        this.sendingLikesId = dto.getSendingLikesId();
+        this.kind = dto.getKind();
     }
 }

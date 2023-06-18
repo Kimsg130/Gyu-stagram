@@ -1,26 +1,96 @@
 .mainPage-wrap {
     width: 100%;
     height: 100%;
+    margin-left: 8px;
+    margin-top: -8px;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
+    align-items: center;
+    /*background-color: ghostwhite;*/
+}
+
+.mainPage-header {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    position: fixed;
+    flex-direction: row;
+    align-items: center;
+    z-index: 1;
     justify-content: center;
+    background-color: white;
+    border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+.mainPage-profile-wrap {
+    display: flex;
+    width: fit-content;
+    height: 200px;
+    padding: 4px;
+    background-color: white;
+    border-radius: 4px;
+    /*border: solid grey 0.2px;*/
+    flex-direction: column;
+    position: fixed;
+    right: 5vw;
+    top: 92px;
+    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
 .mainPage-profile {
     display: flex;
     flex-direction: row;
-    height: auto;
-    margin-top: 40px;
-    margin-right: -255px;
-    margin-left: 120px;
+    align-items: center;
+    width: 230px;
+    height: fit-content;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 4px;
+    border-bottom: solid 1px #cccccc;
+
 }
 
 .mainPage-cards {
     display: flex;
     flex-direction: column;
+    margin-top: 60px;
+    box-shadow: 0px 0px 4px 1px rgba(232, 232, 232, 0.57);
+    border-radius: 10px;
 }
 
 .id {
     display: flex;
     flex-direction: column;
+    margin-left: 16px;
+}
+.mainPage-profile-id {
+    font-weight: bold;
+    font-size: 15px;
+}
+.mainPage-profile-name {
+    font-size: 15px;
+    color: grey;
+    margin-left: -3px;
+}
+
+.css-78cno3-MuiAutocomplete-root .MuiOutlinedInput-root {
+    padding: 0px !important;
+}
+.css-iymoya-MuiPaper-root-MuiCard-root {
+    box-shadow: none !important;
+}
+img.MuiCardMedia-root.MuiCardMedia-media.MuiCardMedia-img.css-o69gx8-MuiCardMedia-root {
+    border-radius: 4px;
+    box-shadow: 0px 2px 1px -1px rgba(255, 255, 255, 0.7), 0px 1px 1px 0px rgba(255, 255, 255, 0.7), 0px 1px 3px 0px rgba(255, 255, 255, 0.7);
+}
+
+.friend-map-wrap {
+    height: 100%;
+    margin: 15px;
+    display: flex;
+    border-radius: 4px;
+    background-color: rgba(0, 172, 246, 0.37);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

@@ -15,6 +15,7 @@ import Card from "@mui/material/Card";
 import defaultImage from "../../../assets/images/default.png";
 import axios from "axios";
 import Modal from "../../Modal";
+import {useNavigate} from "react-router-dom";
 
 interface Posts {
     postId : number;
@@ -25,10 +26,11 @@ interface Posts {
 }
 
 const PostCard = ({post}: {post: Posts}) => {
-
+    //TODO: 더보기누르면 모달 띄우기
     const [expanded, setExpanded] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [user_Image, setUser_Image] = useState('');
-
+    const movePage = useNavigate();
 
     useEffect( () => {
         axios.get('http://localhost:8082/profile', {
@@ -40,12 +42,16 @@ const PostCard = ({post}: {post: Posts}) => {
                 setUser_Image(response.data.image);
             })
             .catch(error => console.log(error));
-    }, []);
+    }, [post.userId]);
 
     const handleImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.src = defaultImage;
         e.currentTarget.srcset = defaultImage;
     }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
 
     return (
@@ -61,7 +67,7 @@ const PostCard = ({post}: {post: Posts}) => {
                         </IconButton>
                     }
                     title={
-                        <div className={"hoverable"} style={{fontSize: 16}}>{post.userId}</div>
+                        <div className={"hoverable"} onClick={() => { movePage("/"+post.userId) }} style={{fontSize: 16}}>{post.userId}</div>
                     }
                     subheader={post.postDate.toString()}
                 />
@@ -86,12 +92,12 @@ const PostCard = ({post}: {post: Posts}) => {
                     </IconButton>
                     <div className={"spacer"} />
                     <ExpandMoreIcon className={"hoverable"} onClick={() => {
-                        // setOpen(true); TODO
+                        setOpen(true);
                     }}/>
                 </CardActions>
             </Card>
-
-
+            <hr style={{width: '340px'}}/>
+            {open && <Modal open={open} handleClose={handleClose} post={post} />}
         </div>
     );
 };

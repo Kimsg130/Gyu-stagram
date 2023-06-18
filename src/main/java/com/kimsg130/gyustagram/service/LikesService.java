@@ -1,5 +1,6 @@
 package com.kimsg130.gyustagram.service;
 
+import com.kimsg130.gyustagram.dto.DoLikeDto;
 import com.kimsg130.gyustagram.model.Likes;
 
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 public interface LikesService {
 
     public List<Likes> getLikesBySendingLikesIdAndKind(int sendingLikesId, String kind);
+
+    public void doLike(DoLikeDto dto);
 }
 
 

@@ -8,20 +8,21 @@ import Posting from "../Posting";
 import "./style.css";
 
 const Navigation = ({userid}: { userid : string | null}) => {
+    //TODO: 반응형으로 @meta~이런걸로 넓이 늘려서 글짜도 나오게
     const [open, setOpen] = useState(false);
     const movePage = useNavigate();
-
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
-
     };
+
 
     return (
         <div>
-            <Wrapper>
+            <Wrapper className={"navibar-wrapper"}>
+                <div style={{height: "60px"}} />
                 <Icon onClick={() => movePage('/')}><HomeIcon fontSize="large" className={"icon-image"}/></Icon>
                 <Icon onClick={() => {movePage('/'+userid)}}><AccountCircleIcon fontSize="large" className={"icon-image"}/></Icon>
                 <Icon onClick={() => handleClickOpen()}><AddBoxOutlinedIcon fontSize="large" className={"icon-image"}/></Icon>
@@ -41,6 +42,7 @@ const Wrapper = styled.div`
   width: 63px;
   padding: 15px;
   background-color: #ffffff;
+  z-index: 2;
   border-right: 1px solid rgb(220, 220, 220);
 `;
 

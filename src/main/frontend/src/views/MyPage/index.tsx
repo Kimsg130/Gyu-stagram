@@ -10,6 +10,8 @@ import Navigation from "../Navigation";
 import Modal from "../Modal";
 import {useNavigate, useParams} from "react-router-dom";
 import defaultImage from "../../assets/images/default.png";
+import Follow from "./Follow";
+import Button from "../Button";
 
 
 // type PostImageProps = {
@@ -24,19 +26,25 @@ interface Posts {
     userId : string;
 }
 
-const MyPage = () => {
+const MyPage = ({key}: {key?: number}) => {
+
+    //TODO: 팔로워 팔로잉 보기
     const { userId } = useParams();
     const rogin_UserId : string | null = useRecoilValue(tokenState).userId;
 
     const finalUserId = userId || rogin_UserId;
 
+    const [alreadyFollow, setAlreadyFollow] = useState(false);
     const [user_comment, setUser_comment ] = useState('');
     const [user_image, setUser_image ] = useState('');
     const [user_name, setUser_name ] = useState('');
     const [posts, setPosts] = useState<Posts[]>([]);
-    const [user_follower, setUser_follower ] = useState(0);
-    const [user_following, setUser_following ] = useState(0);
-    const [open, setOpen] = useState(false);
+    const [user_follower, setUser_follower ] = useState<string[]>([]);
+    const [user_following, setUser_following ] = useState<string[]>([]);
+    const [change, setChange] = useState(false);
+    const [open, setOpen] = useState(false); // 포스트 모달 띄우기
+    const [f_Open, setF_Open] = useState(false); // 팔로잉 창 띄우기
+    const [isWing, setIsWing] = useState(true); // wing인지 wer인지
     const [selectedPost, setSelectedPost] = useState<Posts>({
         postId : 0,
         explains : '',
@@ -65,8 +73,8 @@ const MyPage = () => {
         description: user_comment,
         profileImageUrl: user_image,
         postingCount : posts.length,
-        followerCount: user_follower,
-        followingCount: user_following,
+        followerCount: user_follower.length,
+        followingCount: user_following.length,
     };
 
 
@@ -88,9 +96,30 @@ const MyPage = () => {
 
             })
             .catch(error => console.log(error))
+        setAlreadyFollow(false);
+        if(rogin_UserId != null && user_following.includes(rogin_UserId) || rogin_UserId === finalUserId) {
+            console.log("dkd")
+            setAlreadyFollow(true);
+        }
+        console.log(alreadyFollow);
 
-    }, [userId]);
 
+    }, [finalUserId, change]);
+
+
+    const doFollow = (follower:string, following:string) => {
+        axios
+            .post('http://localhost:8082/dofollow', {
+                follower,
+                following
+            })
+            .then((response) => {
+                setChange(!change);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     return (
         <div className={"profile-page"}>
@@ -98,14 +127,21 @@ const MyPage = () => {
                 <ProfileWrapper className={"profileWrapper"} >
                     <ProfileImage src={user.profileImageUrl} />
                     <ProfileInfo>
-                        <ProfileName>{user.u_id}</ProfileName>
+                        <div style={{display: "flex", flexDirection: "row", alignItems: "baseline"}}>
+                            <ProfileName>{user.u_id}</ProfileName>
+                            {!alreadyFollow && rogin_UserId && finalUserId && <Button label={"팔로우"} clickFunction={()=> { doFollow(rogin_UserId, finalUserId); } }/>}
+                        </div>
                         <FollowInfo>
                             <FollowLabel>게시글</FollowLabel>
                             <FollowCount>{user.postingCount}&nbsp;&nbsp;</FollowCount>
-                            <FollowLabel className={"hoverable"}>팔로워</FollowLabel>
-                            <FollowCount className={"hoverable"}>{user.followerCount}&nbsp;&nbsp;</FollowCount>
-                            <FollowLabel className={"hoverable"}>팔로잉</FollowLabel>
-                            <FollowCount className={"hoverable"}>{user.followingCount}</FollowCount>
+                            <div onClick={() => { setF_Open(true); setIsWing(false); } }>
+                                <FollowLabel className={"hoverable"}>팔로워</FollowLabel>
+                                <FollowCount className={"hoverable"}>{user.followerCount}&nbsp;&nbsp;</FollowCount>
+                            </div>
+                            <div onClick={() => { setF_Open(true); setIsWing(true); } }>
+                                <FollowLabel className={"hoverable"}>팔로잉</FollowLabel>
+                                <FollowCount className={"hoverable"}>{user.followingCount}</FollowCount>
+                            </div>
                         </FollowInfo>
                         <div className={"profile-name"}>{user.name}</div>
                         <ProfileDescription>{user.description}</ProfileDescription>
@@ -113,13 +149,12 @@ const MyPage = () => {
                 </ProfileWrapper>
                 <div className={"post-label hoverable"}><GridOnIcon /><div>포스트</div></div>
                 <ImageList cols={3} className={"grid"} >
-                    {/*sx={{ width: 900, height: 540, }}  rowHeight={}*/}
                     {posts.map((post) => (
                         <ImageListItem key={post.postId} sx={{ height: '100%'}}  className={"post"} onClick={() => handleClickOpen(post)}>
                             <img
                                 className={"thumbnails"}
-                                src={post.images} //?w=164&h=164&fit=crop&auto=format
-                                srcSet={post.images} //?w=164&h=164&fit=crop&auto=format&dpr=2 2x`
+                                src={post.images}
+                                srcSet={post.images}
                                 alt={"ggg"}
                                 loading="lazy"
                                 onError={handleImgError}
@@ -129,6 +164,7 @@ const MyPage = () => {
                 </ImageList>
             </Container>
             {open && <Modal open={open} handleClose={handleClose} post={selectedPost}/>}
+            {f_Open && <Follow userid={finalUserId} isWing={ isWing } handleClose={() => { setF_Open(false); } } />}
         </div>
     );
 };

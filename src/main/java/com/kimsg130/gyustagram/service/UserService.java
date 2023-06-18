@@ -4,6 +4,10 @@ import com.kimsg130.gyustagram.dto.ResponseDto;
 import com.kimsg130.gyustagram.dto.SignupDto;
 import com.kimsg130.gyustagram.dto.TokenDto;
 import com.kimsg130.gyustagram.model.User_Details;
+import com.kimsg130.gyustagram.repository.mapping.SearchUserMapping;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -17,6 +21,8 @@ public interface UserService {
     public boolean existsId(String userId);
 
     public User_Details getUserDetails(String userId);
+
+    public List<SearchUserMapping> getSearchUserIds(String userId);
 }
 
 

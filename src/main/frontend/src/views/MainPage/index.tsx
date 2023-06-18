@@ -4,7 +4,12 @@ import Avatar from '@mui/material/Avatar';
 import "./style.css";
 import axios from "axios";
 import PostCard from "./PostCard";
-import Modal from "../Modal";
+import Button from "../Button";
+import SearchBar from "./SearchBar";
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import Logo from "../../assets/images/logo.png";
+import {useNavigate} from "react-router-dom";
+
 
 interface MainInfo {
     name: string;
@@ -22,6 +27,8 @@ interface Posts {
 }
 
 const MainPage = ( {userid}: { userid : string | null} ) => {
+    const movePage = useNavigate();
+
     const [mainInfo, setMainInfo] = useState<MainInfo>({
         name: '',
         image: '',
@@ -30,6 +37,9 @@ const MainPage = ( {userid}: { userid : string | null} ) => {
         following: [],
     });
 
+    const goToMap = (where: string) => {
+        movePage(where);
+    }
 
     useEffect(() => {
         axios.get('http://localhost:8082/mainPage', {
@@ -51,26 +61,35 @@ const MainPage = ( {userid}: { userid : string | null} ) => {
     return (
         <div>
             <div className={"mainPage-wrap"}>
-                <div className={"mainPage-profile"}>
-                    <Avatar
-                        alt={`${userid}님의 프로필사진`}
-                        src={mainInfo.image}
-                        sx={{ width: 56, height: 56 }}
-                    />
-                    <div className={"id"}>
-                        <div className={"mainPage-profile-id"}>{userid}</div>
-                        <div className={"mainPage-profile-name"}>{mainInfo.name}</div>
+                <div className={"mainPage-profile-wrap"}>
+                    <div className={"mainPage-profile"}>
+                        <Avatar
+                            alt={`${userid}님의 프로필사진`}
+                            src={mainInfo.image}
+                            sx={{ width: 56, height: 56 }}
+                        />
+                        <div className={"id"}>
+                            <div className={"mainPage-profile-id"}>{userid}</div>
+                            <div className={"mainPage-profile-name"}>{mainInfo.name}</div>
+                        </div>
+                        <div className={"spacer"} />
+                        <Button label={"전환"} clickFunction={ () => goToMap('/login') }/>
                     </div>
-                    <div>전환</div>
+                    <div className={"friend-map-wrap"}>
+                        <div className={"friend-map-discribe"}>친구 관계도 보기</div>
+                        <Button label={"보 기"} primary={true} clickFunction={ () => goToMap('/friend-map') }/>
+                    </div>
+                </div>
+                <div className={"mainPage-header"}>
+                    <img src={Logo} alt={"logo failed"} style={{width: "114px", marginLeft: "-35px", marginRight: "96px"}}/>
+                    <PersonSearchIcon fontSize={"large"} className={"hoverable"} sx={{padding: '4px', borderRadius: '50%'}}/>
+                    <SearchBar />
                 </div>
                 <div className={"mainPage-cards"}>
                     {mainInfo.posts.map((post: Posts) => (
                         <PostCard post={post} />
                     ))}
                 </div>
-            </div>
-            <div>
-                {/*{open && <Modal open={open} handleClose={handleClose} post={post} />} TODO*/}
             </div>
         </div>
     );
